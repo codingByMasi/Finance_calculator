@@ -41,6 +41,19 @@ See `.env.example` for all variables.
 
 Still open: read the Finance Act 2026 First Schedule once, spot-check state schedules against state revenue departments, and add special GST rates (gold, diamonds) if wanted. Each config file lists these as `TODO(verify)`.
 
+## Keeping tax data current
+
+Tax figures stay in `src/config/tax-india.ts`, `tax-us.ts` and `gst-india.ts`; they are updated by a person, never scraped into the site.
+
+- `src/config/data-sources.json` lists the official pages the site depends on, with a few figures each page must still contain.
+- `.github/workflows/check-sources.yml` runs weekly (and on demand) and calls `scripts/check-sources.mjs`. It hashes each page's visible text and compares it with the last human-reviewed hash in `data/source-baseline.json`. If a page changed, a known figure disappeared, or a source has been unreachable for 3 runs in a row, it opens (or comments on) a GitHub issue labelled `data-review`. It also commits `src/data/source-status.json` (last-checked dates only), which redeploys the site.
+- When the issue arrives: read the source, edit the config, bump its `lastUpdated`, run `npm run sources:accept` (marks the current page content as reviewed), run `npm test`, and open a PR.
+- Run it yourself with `npm run sources:check`.
+
+Limits, stated plainly: none of these sources offers a machine-readable (JSON/XML) feed of rates, so the check is page-level change detection, not data extraction. Pages with navigation or date noise can trigger false alarms, and some government sites block automated requests; those show as unreachable and are reported rather than hidden. The first scheduled run seeds the baseline from whatever the pages say that day, so make sure the configs are correct before it runs.
+
+The "last updated" dates on tool pages, the Assumptions box, the footer, the home page badge and the sitemap are read from the configs' `lastUpdated` fields and the status file (`src/lib/data-status.ts`); no date is hardcoded in components.
+
 ## Deploy to Cloudflare Pages
 
 1. Push this repo to GitHub.

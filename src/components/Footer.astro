@@ -1,6 +1,7 @@
 ---
 import { SITE_NAME, CATEGORIES } from '../config/site';
 import Icon from './Icon.astro';
+import { dataUpdated, sourcesLastChecked, fmtDate } from '../lib/data-status';
 const year = new Date().getFullYear();
 ---
 <footer class="footer">
@@ -26,6 +27,6 @@ const year = new Date().getFullYear();
         <button type="button" data-open-consent>Cookie settings</button>
       </nav>
     </div>
-    <div class="footer-bottom"><span>© {year} {SITE_NAME}</span><span>Calculations run in your browser.</span></div>
+    <div class="footer-bottom"><span>© {year} {SITE_NAME}</span><span>Tax data updated {fmtDate(dataUpdated.any)}{sourcesLastChecked && ` · official sources checked ${fmtDate(sourcesLastChecked)}`}</span></div>
   </div>
 </footer>

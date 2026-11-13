@@ -4,7 +4,8 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 import CalculatorTool from '../components/CalculatorTool.astro';
 import AdSlot from '../components/AdSlot.astro';
 import Icon from '../components/Icon.astro';
-import { SITE_NAME, SITE_URL, CATEGORIES, CONTENT_LAST_UPDATED } from '../config/site';
+import { SITE_NAME, SITE_URL, CATEGORIES } from '../config/site';
+import { dataForTool, sourcesLastChecked, fmtDate } from '../lib/data-status';
 import { toolBySlug, toolIcons, type Tool } from '../config/tools';
 import { getToolDef } from '../lib/tools';
 import { defaults } from '../lib/tools/types';
@@ -22,11 +23,13 @@ const example = def.compute(defaults(def.fields));
 const related = tool.related.map(toolBySlug).filter((t): t is Tool => !!t);
 
 // Where this tool's rates come from (for the Assumptions box)
-const data =
-  tool.slug === 'income-tax-calculator-india' ? { updated: taxIndia.lastUpdated, sources: taxIndia.sourceUrls, verified: taxIndia.verified, note: taxIndia.verificationNote, label: `FY ${taxIndia.financialYear}` }
-  : tool.slug === 'paycheck-calculator' ? { updated: taxUS.lastUpdated, sources: taxUS.sourceUrls, verified: taxUS.verified, note: taxUS.verificationNote, label: `tax year ${taxUS.taxYear}` }
-  : tool.slug === 'gst-calculator' ? { updated: gstIndia.lastUpdated, sources: gstIndia.sourceUrls, verified: gstIndia.verified, note: gstIndia.verificationNote, label: 'GST rate list' }
-  : { updated: CONTENT_LAST_UPDATED, sources: [] as string[], verified: true, note: '', label: '' };
+const dep = dataForTool(tool.slug);
+const meta =
+  tool.slug === 'income-tax-calculator-india' ? { sources: taxIndia.sourceUrls, note: taxIndia.verificationNote }
+  : tool.slug === 'paycheck-calculator' ? { sources: taxUS.sourceUrls, note: taxUS.verificationNote }
+  : tool.slug === 'gst-calculator' ? { sources: gstIndia.sourceUrls, note: gstIndia.verificationNote }
+  : { sources: [] as string[], note: '' };
+const data = { updated: dep.updated, label: dep.label, ...meta };
 
 const crumbs = [{ name: 'Home', href: '/' }, { name: cat.title, href: `/${cat.slug}/` }, { name: tool.shortTitle }];
 const jsonLd = [
@@ -34,7 +37,6 @@ const jsonLd = [
   { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: tool.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
   { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: crumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, ...(c.href ? { item: SITE_URL + c.href } : { item: url }) })) },
 ];
-const fmtDate = (d: string) => new Date(d + 'T00:00:00Z').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
 ---
 <BaseLayout title={tool.title} description={tool.description} path={path} country={tool.country} jsonLd={jsonLd}>
   <div class="shell-inner">
@@ -45,7 +47,7 @@ const fmtDate = (d: string) => new Date(d + 'T00:00:00Z').toLocaleDateString('en
           <h1>{tool.title}</h1>
           <p>{tool.description}</p>
         </div>
-        <span class="updated-badge">Updated {fmtDate(data.updated)}</span>
+        <span class="updated-badge">Data updated {fmtDate(data.updated)}</span>
       </div>
     </div>
 
@@ -66,7 +68,7 @@ const fmtDate = (d: string) => new Date(d + 'T00:00:00Z').toLocaleDateString('en
           <div>
             <h2 id="assume-h" class="assume-title">Assumptions</h2>
             <ul>{tool.assumptions.map((a) => <li>{a}</li>)}</ul>
-            <p><strong>Last updated:</strong> {fmtDate(data.updated)}{data.label && ` (${data.label})`}.
+            <p><strong>Data last updated:</strong> {fmtDate(data.updated)} ({data.label}).{sourcesLastChecked && <> Official sources last checked: {fmtDate(sourcesLastChecked)}.</>}
               {data.note && <span> {data.note}</span>}
             </p>
             {data.sources.length > 0 && (

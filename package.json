@@ -8,7 +8,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "test": "vitest run",
-    "check": "astro check"
+    "check": "astro check",
+    "sources:check": "node scripts/check-sources.mjs",
+    "sources:accept": "node scripts/check-sources.mjs --accept --write-status"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.5",
@@ -17,6 +19,7 @@
     "typescript": "^7.0.2"
   },
   "devDependencies": {
+    "@types/node": "^26.6.6",
     "vitest": "^5.1.0"
   }
 }

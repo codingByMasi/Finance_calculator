@@ -4,7 +4,8 @@ export const SITE_TAGLINE = 'Free finance calculators for India and the US';
 export const SITE_URL: string = (import.meta.env.PUBLIC_SITE_URL || 'https://example.com').replace(/\/$/, '');
 // TODO: replace with your real contact email before launch (also used on /contact and /privacy-policy).
 export const CONTACT_EMAIL = 'contact@your-domain.example';
-export const CONTENT_LAST_UPDATED = '2026-11-13';
+/** Date the legal/info pages were last edited (not tax data; see src/lib/data-status.ts for data dates). */
+export const LEGAL_LAST_UPDATED = '2026-11-13';
 
 export const ADSENSE_CLIENT: string = import.meta.env.PUBLIC_ADSENSE_CLIENT || '';
 export const GA_ID: string = import.meta.env.PUBLIC_GA_ID || '';

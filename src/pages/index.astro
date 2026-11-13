@@ -2,7 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ToolCard from '../components/ToolCard.astro';
 import Icon from '../components/Icon.astro';
-import { SITE_NAME, SITE_TAGLINE, SITE_URL, CATEGORIES, CONTENT_LAST_UPDATED } from '../config/site';
+import { SITE_NAME, SITE_TAGLINE, SITE_URL, CATEGORIES } from '../config/site';
+import { dataUpdated, fmtDate } from '../lib/data-status';
 import { tools, toolsByCategory, toolBySlug, popularSlugs, categoryIcons, type Tool } from '../config/tools';
 const popular = popularSlugs.map(toolBySlug).filter((t): t is Tool => !!t);
 const index = tools.map((t) => ({ title: t.shortTitle, slug: t.slug, description: t.description }));
@@ -17,7 +18,7 @@ const index = tools.map((t) => ({ title: t.shortTitle, slug: t.slug, description
   <section class="hero">
     <div class="hero-orb orb-one"></div><div class="hero-orb orb-two"></div>
     <div class="hero-inner">
-      <span class="eyebrow">Free · Private · Updated {CONTENT_LAST_UPDATED}</span>
+      <span class="eyebrow">Free · Private · Tax data updated {fmtDate(dataUpdated.any)}</span>
       <h1>{SITE_TAGLINE}</h1>
       <p>Clear answers for loans, investing, taxes and everyday money decisions. Every calculation runs in your browser and shows its formula and a worked example.</p>
       <div class="hero-controls">
