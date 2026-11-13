@@ -28,6 +28,19 @@ Requires Node 20+ (developed on Node 22).
 
 See `.env.example` for all variables.
 
+## Verification status of tax figures (checked 2026-11-13)
+
+| Area | Status | Source |
+| --- | --- | --- |
+| US federal brackets (single, married, head of household), standard deductions | Confirmed, official | IRS Rev. Proc. 2025-32 |
+| US Social Security, Medicare, additional Medicare | Confirmed, official | irs.gov Topic 751 |
+| US state schedules (50 states + DC) | Transcribed from a secondary compilation, not checked per state | Tax Foundation, State Individual Income Tax Rates and Brackets for 2026 |
+| India slabs, rebate, standard deduction, 80C, surcharge, cess | Confirmed, official (AY 2026-27 tables) | incometaxindia.gov.in |
+| India FY 2026-27 carry-over | Budget 2026-27 coverage says unchanged; Finance Act 2026 text not read | news coverage |
+| India GST slabs (Nil, 5%, 18%, 40%) | Confirmed, official | PIB, 56th GST Council release |
+
+Still open: read the Finance Act 2026 First Schedule once, spot-check state schedules against state revenue departments, and add special GST rates (gold, diamonds) if wanted. Each config file lists these as `TODO(verify)`.
+
 ## Deploy to Cloudflare Pages
 
 1. Push this repo to GitHub.

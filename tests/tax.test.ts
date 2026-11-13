@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { computeIndiaTax, slabTax } from '../src/lib/calc/tax-india';
-import { computePaycheck, bracketTax } from '../src/lib/calc/tax-us';
+import { computePaycheck, computeStateTax, bracketTax } from '../src/lib/calc/tax-us';
 import { taxIndia } from '../src/config/tax-india';
-import { taxUS } from '../src/config/tax-us';
+import { taxUS, stateTaxes } from '../src/config/tax-us';
 
 describe('india tax (uses config)', () => {
   it('config carries lastUpdated and a source URL', () => {
@@ -55,6 +55,50 @@ describe('india tax (uses config)', () => {
     expect(Number.isFinite(r.netAnnual)).toBe(true);
     const n = computeIndiaTax({ grossAnnual: 1e10, regime: 'new' });
     expect(n.surchargeRate).toBe(0.25);
+  });
+});
+
+describe('us state schedules (uses config)', () => {
+  const st = (c: string) => stateTaxes.find((s) => s.code === c)!;
+  it('covers 50 states plus DC with unique codes', () => {
+    expect(stateTaxes).toHaveLength(51);
+    expect(new Set(stateTaxes.map((s) => s.code)).size).toBe(51);
+  });
+  it('no-wage-tax states are zero', () => {
+    for (const c of ['AK', 'FL', 'NV', 'NH', 'SD', 'TN', 'TX', 'WA', 'WY']) {
+      expect(st(c).kind).toBe('none');
+      expect(computeStateTax(st(c), 'single', 500_000).tax).toBe(0);
+    }
+  });
+  it('California single, 100k: brackets, standard deduction and exemption credit', () => {
+    // taxable 94,460: 110.79 + 303.70 + 607.52 + 965.40 + 1214.56 + 2021.448 = 5223.418; less 153 credit
+    const r = computeStateTax(st('CA'), 'single', 100_000);
+    expect(r.taxable).toBe(94_460);
+    expect(r.tax).toBeCloseTo(5223.418 - 153, 2);
+  });
+  it('flat state with threshold (Idaho) taxes only above the threshold', () => {
+    const r = computeStateTax(st('ID'), 'single', 50_000);
+    expect(r.taxable).toBe(50_000 - 16_100);
+    expect(r.tax).toBeCloseTo((33_900 - 4_811) * 0.053, 6);
+  });
+  it('flat state (Colorado) single vs married standard deduction', () => {
+    expect(computeStateTax(st('CO'), 'single', 100_000).tax).toBeCloseTo((100_000 - 16_100) * 0.044, 6);
+    expect(computeStateTax(st('CO'), 'married', 100_000).tax).toBeCloseTo((100_000 - 32_200) * 0.044, 6);
+  });
+  it('Utah standard deduction is a credit', () => {
+    const r = computeStateTax(st('UT'), 'single', 60_000);
+    expect(r.tax).toBeCloseTo(60_000 * 0.045 - 966, 6);
+  });
+  it('low income never gives negative tax; huge income stays finite', () => {
+    expect(computeStateTax(st('NY'), 'single', 1_000).tax).toBe(0);
+    expect(Number.isFinite(computeStateTax(st('NY'), 'single', 1e12).tax)).toBe(true);
+  });
+  it('every graduated schedule is ascending with rates in (0, 15%)', () => {
+    for (const s of stateTaxes) for (const col of ['single', 'married'] as const) {
+      const b = s.brackets[col];
+      for (let i = 1; i < b.length; i++) expect(b[i].upTo).toBeGreaterThan(b[i - 1].upTo);
+      for (const x of b) expect(x.rate).toBeLessThan(0.15);
+    }
   });
 });
 

@@ -26,7 +26,10 @@ export const def: ToolDef = {
     steps.push(`Federal income tax = ${m(r.federal)}.`);
     steps.push(`Social Security = min(gross, ${m(taxUS.fica.socialSecurityWageBase)}) × ${pct(taxUS.fica.socialSecurityRate * 100)} = ${m(r.socialSecurity)}.`);
     steps.push(`Medicare = gross × ${pct(taxUS.fica.medicareRate * 100)} = ${m(r.medicare)}${r.additionalMedicare ? `, plus additional Medicare ${m(r.additionalMedicare)}` : ''}.`);
-    steps.push(`${r.stateName} income tax (approx. ${pct(r.stateRate * 100)} of ${m(r.gross - r.preTax)}) = ${m(r.state)}.`);
+    const sd = r.stateDetail;
+    steps.push(sd.taxable === 0 && sd.tax === 0
+      ? `${r.stateName} income tax = ${m(0)}${sd.deduction === 0 && sd.taxBeforeCredits === 0 ? ' (no state tax on wages, or income below the state threshold)' : ''}.`
+      : `${r.stateName} income tax: taxable = ${m(r.gross - r.preTax)} − state deductions ${m(sd.deduction)} = ${m(sd.taxable)}; tax from the state schedule = ${m(sd.taxBeforeCredits)}${sd.credits ? `; less credits ${m(sd.credits)}` : ''} = ${m(r.state)} (${pct(r.stateRate * 100, 2)} of gross).`);
     steps.push(`Net pay = gross − pre-tax − federal − FICA − state = ${m(r.gross)} − ${m(r.preTax)} − ${m(r.federal)} − ${m(r.fica)} − ${m(r.state)} = ${m(r.netAnnual)} a year, or ${m(r.netPerPeriod, 2)} per paycheck (${r.periods} pay periods).`);
     return {
       headline: { label: 'Take-home per paycheck', value: m(r.netPerPeriod, 2) },
@@ -34,7 +37,7 @@ export const def: ToolDef = {
         { label: 'Gross per paycheck', value: m(r.grossPerPeriod, 2) },
         { label: 'Federal income tax (year)', value: m(r.federal) },
         { label: 'Social Security + Medicare (year)', value: m(r.fica) },
-        { label: `${r.stateName} tax (year, approx.)`, value: m(r.state) },
+        { label: `${r.stateName} income tax (year)`, value: m(r.state) },
         { label: 'Take-home per year', value: m(r.netAnnual), strong: true },
         { label: 'Take-home per month', value: m(r.netAnnual / 12) },
         { label: 'Effective tax rate', value: pct(r.effectiveRate, 1) },
@@ -43,7 +46,7 @@ export const def: ToolDef = {
       chart: r.gross > 0 ? { kind: 'donut', title: 'Where your pay goes', currency: 'USD', segments: [
         { label: 'Take-home', value: r.netAnnual }, { label: 'Federal tax', value: r.federal }, { label: 'FICA', value: r.fica },
         { label: 'State tax', value: r.state }, { label: 'Pre-tax savings', value: r.preTax }] } : undefined,
-      notes: r.stateVerified ? [] : [`${r.stateName} uses an approximate flat rate for estimates; the real state calculation differs.`],
+      notes: [...(r.stateNote ? [r.stateNote] : []), 'Local taxes and state payroll programs (SDI, FLI) are not included.'],
     };
   },
 };

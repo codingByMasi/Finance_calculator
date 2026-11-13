@@ -11,7 +11,7 @@ export const def: ToolDef = {
     { id: 'amount', label: 'Amount', type: 'number', default: 10000, min: 0, max: 1e13, step: 'any', prefix: 'cur' },
     { id: 'rate', label: 'GST rate', type: 'select', default: String(gstIndia.defaultRate),
       options: gstIndia.rates.map((r) => ({ value: String(r), label: `${r}%` })),
-      hint: 'Check the current GST rate for your item on the official GST portal; rates change.' },
+      hint: 'Standard slabs since 22 September 2025. Check the rate for your item (HSN/SAC code) on the official GST portal.' },
   ],
   compute(v) {
     const mode = str(v, 'mode') as 'add' | 'remove', rate = Number(str(v, 'rate')), a = num(v, 'amount');

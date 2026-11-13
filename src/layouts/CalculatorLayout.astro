@@ -23,10 +23,10 @@ const related = tool.related.map(toolBySlug).filter((t): t is Tool => !!t);
 
 // Where this tool's rates come from (for the Assumptions box)
 const data =
-  tool.slug === 'income-tax-calculator-india' ? { updated: taxIndia.lastUpdated, sources: taxIndia.sourceUrls, verified: taxIndia.verified, label: `FY ${taxIndia.financialYear}` }
-  : tool.slug === 'paycheck-calculator' ? { updated: taxUS.lastUpdated, sources: taxUS.sourceUrls, verified: taxUS.verified, label: `tax year ${taxUS.taxYear}` }
-  : tool.slug === 'gst-calculator' ? { updated: gstIndia.lastUpdated, sources: gstIndia.sourceUrls, verified: gstIndia.verified, label: 'GST rate list' }
-  : { updated: CONTENT_LAST_UPDATED, sources: [] as string[], verified: true, label: '' };
+  tool.slug === 'income-tax-calculator-india' ? { updated: taxIndia.lastUpdated, sources: taxIndia.sourceUrls, verified: taxIndia.verified, note: taxIndia.verificationNote, label: `FY ${taxIndia.financialYear}` }
+  : tool.slug === 'paycheck-calculator' ? { updated: taxUS.lastUpdated, sources: taxUS.sourceUrls, verified: taxUS.verified, note: taxUS.verificationNote, label: `tax year ${taxUS.taxYear}` }
+  : tool.slug === 'gst-calculator' ? { updated: gstIndia.lastUpdated, sources: gstIndia.sourceUrls, verified: gstIndia.verified, note: gstIndia.verificationNote, label: 'GST rate list' }
+  : { updated: CONTENT_LAST_UPDATED, sources: [] as string[], verified: true, note: '', label: '' };
 
 const crumbs = [{ name: 'Home', href: '/' }, { name: cat.title, href: `/${cat.slug}/` }, { name: tool.shortTitle }];
 const jsonLd = [
@@ -67,7 +67,7 @@ const fmtDate = (d: string) => new Date(d + 'T00:00:00Z').toLocaleDateString('en
             <h2 id="assume-h" class="assume-title">Assumptions</h2>
             <ul>{tool.assumptions.map((a) => <li>{a}</li>)}</ul>
             <p><strong>Last updated:</strong> {fmtDate(data.updated)}{data.label && ` (${data.label})`}.
-              {!data.verified && <span> Some figures are still being verified against official sources, so treat results as estimates.</span>}
+              {data.note && <span> {data.note}</span>}
             </p>
             {data.sources.length > 0 && (
               <p>Sources: {data.sources.map((s, i) => <><a href={s} rel="noopener">{new URL(s).hostname}</a>{i < data.sources.length - 1 && ', '}</>)}</p>

@@ -65,7 +65,7 @@ export const tools: Tool[] = [
       'Remember that removing GST is not the same as subtracting the percentage. Taking 18% off ₹11,800 would give ₹9,676, but the correct pre-GST price is ₹10,000, because the 18% was added on top of the base. The calculator divides by (1 + rate) to avoid this common mistake.',
     ],
     formula: 'Add GST: total = price × (1 + rate ÷ 100)\nRemove GST: price = total ÷ (1 + rate ÷ 100)\nGST amount = total − price. For intra-state sales CGST = SGST = GST ÷ 2.',
-    assumptions: ['The GST rate list is maintained in the site configuration and may lag behind official changes; confirm your item\'s rate on the official GST portal.', 'Cess, TCS and inter-state IGST treatment are not modelled.'],
+    assumptions: ['Rates offered are the post-September-2025 slabs (Nil, 5%, 18%, 40%); special rates such as gold and some compensation-cess goods are not included. Confirm your item\'s rate on the official GST portal.', 'Cess, TCS and inter-state IGST treatment are not modelled.'],
     faq: [
       { q: 'How do I remove GST from a total?', a: 'Divide the GST-inclusive price by (1 + rate ÷ 100). For ₹1,180 at 18% that gives ₹1,000, so the GST is ₹180.' },
       { q: 'What is the difference between CGST, SGST and IGST?', a: 'For sales within a state the tax is split equally between central (CGST) and state (SGST) governments. For sales between states a single IGST equal to the full rate applies.' },
@@ -119,16 +119,16 @@ export const tools: Tool[] = [
     about: [
       'Your gross salary and the amount that lands in your bank account can differ by 20 to 35 percent. Federal income tax, Social Security and Medicare (together called FICA) come out of every paycheck, and most states take their own share on top.',
       'Enter your annual salary, how often you are paid, your filing status and your state. If you contribute to a 401(k) or HSA, enter the yearly amount: those contributions lower your income tax but not your FICA tax. The calculator shows what you keep per paycheck, per month and per year, plus a chart of where each dollar goes.',
-      'Federal tax uses the standard deduction and the progressive brackets recorded in the site\'s tax configuration, which lists its IRS source and last-updated date. State tax is a simplified estimate, so use it for planning rather than for filing. States with no wage income tax, such as Texas and Florida, show a zero.',
+      'Federal tax uses the standard deduction and the progressive brackets recorded in the site\'s tax configuration, which lists its IRS source and last-updated date. State tax uses each state\'s 2026 bracket schedule with its standard deduction and personal exemption or credit, but not local taxes or payroll programs such as SDI, so use it for planning rather than for filing. States with no wage income tax, such as Texas and Florida, show a zero.',
     ],
     formula: 'Federal taxable = gross − pre-tax contributions − standard deduction; tax = sum of bracket amounts\nSocial Security = 6.2% up to the wage base; Medicare = 1.45% (+0.9% over the threshold)\nNet = gross − pre-tax − federal − FICA − state.',
-    assumptions: ['Wage income only, standard deduction, no credits or other withholding.', 'State tax is an approximate flat rate (flagged in the config); local taxes are excluded.', 'Rates come from src/config/tax-us.ts.'],
+    assumptions: ['Wage income only, standard deduction, no credits or other withholding.', 'State schedules are from a secondary 2026 compilation (see the config); local taxes, state payroll programs and dependants are excluded.', 'Rates come from src/config/tax-us.ts.'],
     faq: [
       { q: 'Why is my real paycheck different?', a: 'Employers withhold using your W-4, health premiums, local taxes and state disability programs. This tool estimates the tax liability, not the exact withholding.' },
       { q: 'What is FICA?', a: 'The payroll taxes for Social Security (6.2% up to an annual wage base) and Medicare (1.45%, with an extra 0.9% on high earnings).' },
       { q: 'Do 401(k) contributions reduce taxes?', a: 'Traditional 401(k) and HSA contributions reduce federal and most state income tax, but not Social Security and Medicare tax.' },
       { q: 'Which states have no income tax?', a: 'Alaska, Florida, Nevada, New Hampshire (on wages), South Dakota, Tennessee, Texas, Washington and Wyoming do not tax wage income.' },
-      { q: 'How accurate is the state tax?', a: 'It uses a simplified rate. Progressive states like California and New York need bracket tables, so treat their results as a rough estimate.' },
+      { q: 'How accurate is the state tax?', a: 'It applies the state\'s 2026 bracket schedule, standard deduction and personal exemption or credit to your wages. It leaves out local taxes, state payroll programs and dependants, so the result can differ from your actual withholding.' },
     ],
     related: ['hourly-to-salary-calculator', 'mortgage-calculator', 'sales-tax-calculator'],
   },
