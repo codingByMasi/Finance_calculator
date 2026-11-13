@@ -9,6 +9,9 @@ import { dataUpdated, sourceStatuses, sourcesLastChecked, fmtDate } from '../lib
 import { taxIndia } from '../config/tax-india';
 import { taxUS } from '../config/tax-us';
 import { gstIndia } from '../config/gst-india';
+import { savingsIndia } from '../config/savings-india';
+import { hraIndia } from '../config/hra-india';
+import { retirementUS } from '../config/retirement-us';
 import { money } from '../lib/format';
 
 const fmt = (v: number, unit: 'usd' | 'inr' | 'pct') => (unit === 'inr' ? money(v, 'INR', v % 1 ? 2 : 0) : money(v, 'USD', v % 1 ? 2 : 0));
@@ -26,7 +29,7 @@ const checks = accuracyCases.map((c) => ({ c, ...runAccuracyCase(c) }));
   </ul>
 
   <h2>How the data is checked</h2>
-  <p>Tax data was last updated on <strong>{fmtDate(dataUpdated.any)}</strong> (India income tax {fmtDate(dataUpdated.india)}, US tax {fmtDate(dataUpdated.us)}, GST {fmtDate(dataUpdated.gst)}). An automated job runs weekly, fetches the official pages below, and opens an issue for a person if a page changed, a known figure disappeared or a page could not be reached repeatedly. It never edits figures itself. Last run: {fmtDate(sourcesLastChecked)}. Official websites sometimes block automated requests, so a page can show as unreachable; that is reported rather than hidden. None of these sources provides a machine-readable feed, so the check detects page changes rather than reading numbers.</p>
+  <p>Tax data was last updated on <strong>{fmtDate(dataUpdated.any)}</strong> (India income tax {fmtDate(dataUpdated.india)}, US tax {fmtDate(dataUpdated.us)}, GST {fmtDate(dataUpdated.gst)}, PPF {fmtDate(dataUpdated.savings)}, HRA {fmtDate(dataUpdated.hra)}, 401(k) {fmtDate(dataUpdated.retirement)}). An automated job runs weekly, fetches the official pages below, and opens an issue for a person if a page changed, a known figure disappeared or a page could not be reached repeatedly. It never edits figures itself. Last run: {fmtDate(sourcesLastChecked)}. Official websites sometimes block automated requests, so a page can show as unreachable; that is reported rather than hidden. None of these sources provides a machine-readable feed, so the check detects page changes rather than reading numbers.</p>
   <ul>
     {sourceStatuses.map((s) => <li><a href={s.url} rel="noopener">{s.title}</a>: {s.state === 'ok' ? 'unchanged since last review' : s.state}{s.lastChecked && ` (checked ${fmtDate(s.lastChecked)})`}</li>)}
   </ul>
@@ -35,6 +38,9 @@ const checks = accuracyCases.map((c) => ({ c, ...runAccuracyCase(c) }));
     <li><strong>India income tax:</strong> {taxIndia.verificationNote}</li>
     <li><strong>US tax:</strong> {taxUS.verificationNote}</li>
     <li><strong>GST:</strong> {gstIndia.verificationNote}</li>
+    <li><strong>PPF rate and limits:</strong> {savingsIndia.verificationNote}</li>
+    <li><strong>HRA rules:</strong> {hraIndia.verificationNote}</li>
+    <li><strong>401(k) limits:</strong> {retirementUS.verificationNote}</li>
   </ul>
   <p>See the <a href="/changelog/">data changelog</a> for every change and the <a href="/corrections/">corrections policy</a> for how mistakes are handled.</p>
 

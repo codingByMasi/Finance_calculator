@@ -10,7 +10,9 @@
     "test": "vitest run",
     "check": "astro check",
     "sources:check": "node scripts/check-sources.mjs",
-    "sources:accept": "node scripts/check-sources.mjs --accept --write-status"
+    "sources:accept": "node scripts/check-sources.mjs --accept --write-status",
+    "check:built": "node scripts/check-built.mjs",
+    "verify": "vitest run && astro build && node scripts/check-built.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.5",

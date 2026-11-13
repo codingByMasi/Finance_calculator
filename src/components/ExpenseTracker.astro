@@ -1,0 +1,48 @@
+---
+import Icon from './Icon.astro';
+import { EXPENSE_CATEGORIES, MAX_NOTE } from '../lib/expenses';
+---
+<div class="calculator-shell" data-expense-app>
+  <section class="input-panel" aria-labelledby="exp-add-h">
+    <div class="panel-heading"><div><span aria-hidden="true">1</span><h2 id="exp-add-h">Add an expense</h2></div><small>Saved in this browser only</small></div>
+    <form data-exp-form novalidate autocomplete="off">
+      <div class="field">
+        <label for="exp-currency">Currency for this list</label>
+        <select id="exp-currency"><option value="USD">US dollar ($)</option><option value="INR">Indian rupee (₹)</option></select>
+      </div>
+      <div class="field"><label for="exp-date">Date</label><input id="exp-date" type="date" required aria-describedby="exp-error" /></div>
+      <div class="field"><label for="exp-amount">Amount</label><input id="exp-amount" type="number" inputmode="decimal" min="0" step="0.01" required aria-describedby="exp-error" /></div>
+      <div class="field">
+        <label for="exp-category">Category</label>
+        <select id="exp-category">{EXPENSE_CATEGORIES.map((c) => <option value={c}>{c}</option>)}</select>
+      </div>
+      <div class="field"><label for="exp-note">Note (optional)</label><input id="exp-note" type="text" maxlength={MAX_NOTE} /></div>
+      <p class="field-error" id="exp-error" role="alert"></p>
+      <button class="primary-button" type="submit">Add expense</button>
+    </form>
+    <p class="privacy-note"><Icon name="lock" size={15} /><span>Entries are stored only in this browser, on this device. Nothing is sent to a server. Clearing your browser data deletes them, so export a CSV for a copy.</span></p>
+    <p class="storage-warning" data-exp-storage role="status" hidden>Your browser is blocking storage, so entries will be lost when you leave this page. You can still export a CSV.</p>
+  </section>
+  <div class="result-column">
+    <section class="result-card" aria-labelledby="exp-sum-h">
+      <h2 id="exp-sum-h" class="sr-only">Monthly summary</h2>
+      <div class="exp-month field"><label for="exp-month">Month</label><select id="exp-month"></select></div>
+      <div data-exp-summary aria-live="polite" aria-atomic="true"></div>
+      <div data-exp-chart class="chart-box"></div>
+      <div class="table-scroll exp-table" tabindex="0" role="region" aria-label="Expenses in this month">
+        <table class="schedule-table">
+          <thead><tr><th scope="col">Date</th><th scope="col">Category</th><th scope="col">Note</th><th scope="col">Amount</th><th scope="col"><span class="sr-only">Delete</span></th></tr></thead>
+          <tbody data-exp-rows></tbody>
+        </table>
+      </div>
+      <p class="estimate-note">Totals add up the entries you record. They are not budgets, forecasts or advice.</p>
+      <div class="share-bar" role="group" aria-label="Export or clear">
+        <button type="button" class="text-button" data-exp-export="month">Export this month (CSV)</button>
+        <button type="button" class="text-button" data-exp-export="all">Export everything (CSV)</button>
+        <button type="button" class="text-button" data-exp-clear>Delete all entries</button>
+        <span class="share-status" data-exp-status role="status" aria-live="polite"></span>
+      </div>
+    </section>
+  </div>
+</div>
+<script>import '../scripts/expenses';</script>

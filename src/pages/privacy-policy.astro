@@ -2,7 +2,7 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import { SITE_NAME, CONTACT_EMAIL, OPERATOR } from '../config/site';
 ---
-<PageLayout legal title="Privacy Policy" description={`How ${SITE_NAME} handles personal data: no calculator inputs collected, cookies only with consent, advertising and analytics choices, and your rights in India, the EEA/UK and the US.`} path="/privacy-policy/">
+<PageLayout legal title="Privacy Policy" description={`How ${SITE_NAME} handles personal data: no calculator inputs collected, cookies only with consent, and your rights in India, the EEA/UK and the US.`} path="/privacy-policy/">
   <p>This policy explains what personal information {SITE_NAME} (the "Site") collects, why, who receives it and the choices and rights you have. It is written for visitors in India, the United States, the European Economic Area and the United Kingdom, and it applies wherever you are.</p>
 
   <h2>1. Who is responsible</h2>
@@ -12,6 +12,8 @@ import { SITE_NAME, CONTACT_EMAIL, OPERATOR } from '../config/site';
   <ul>
     <li><strong>Calculator inputs.</strong> The numbers you enter are processed in your browser. They are not sent to our servers and we do not store them. If you use "Copy link", the inputs are placed in the web address only on your device; if you share that link, the person who opens it can see them.</li>
     <li><strong>Preferences stored on your device.</strong> We use your browser's local storage for your country choice, light or dark mode and your cookie choices. This stays on your device.</li>
+    <li><strong>Expense tracker entries.</strong> If you use the expense tracker, the entries you type (dates, amounts, categories, notes) are saved in your browser's local storage on your device only. We never receive them. Clearing your browser data, or the "Delete all entries" button, removes them.</li>
+    <li><strong>Exchange rates.</strong> The currency converter uses a rate table published with the page. Using it does not send a request to a rate provider from your browser.</li>
     <li><strong>With your consent: advertising and analytics data.</strong> If you accept advertising cookies, Google AdSense and its partners may collect identifiers, IP address, device and browser data and information about your visit. If you accept analytics cookies, an analytics service such as Google Analytics may collect page views and similar usage data. Nothing is loaded until you choose.</li>
     <li><strong>Technical logs.</strong> Our hosting provider (Cloudflare) processes IP address, browser type and requested page to deliver and protect the Site.</li>
     <li><strong>Messages you send.</strong> If you email us we receive your email address and what you write, and we use it to reply.</li>

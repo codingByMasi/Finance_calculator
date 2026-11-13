@@ -2,7 +2,8 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { lintText, copyRules } from '../scripts/lib/copy-rules.mjs';
-import { tools } from '../src/config/tools';
+import { tools as allTools, isCalculator } from '../src/config/tools';
+const tools = allTools.filter(isCalculator);
 import { getToolDef } from '../src/lib/tools';
 import { defaults } from '../src/lib/tools/types';
 import { resultHtml, ESTIMATE_NOTE } from '../src/lib/results';
@@ -27,7 +28,7 @@ describe('copy lint rules themselves', () => {
 describe('copy lint over the whole site', () => {
   it('tool registry copy (titles, descriptions, about, formula, assumptions, FAQs)', () => {
     const bad: string[] = [];
-    for (const t of tools) {
+    for (const t of allTools) {
       const texts = [t.title, t.description, ...t.about, t.formula, ...t.assumptions, ...t.faq.flatMap((f) => [f.q, f.a])];
       for (const x of texts) for (const f of lintText(x)) bad.push(`${t.slug}: [${f.id}] ${f.line}`);
     }

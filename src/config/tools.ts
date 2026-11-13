@@ -15,7 +15,10 @@ export interface Tool {
   assumptions: string[];
   faq: Faq[]; // exactly 5
   related: string[]; // slugs
+  /** 'app' tools (tracker, calendar) are custom components with no calculate-a-result definition */
+  kind?: 'calculator' | 'app';
 }
+export const isCalculator = (t: Tool): boolean => t.kind !== 'app';
 
 /** Single source of truth: drives nav, category pages, country pages, sitemap, JSON-LD and related-tool blocks. */
 const baseTools: Tool[] = [
@@ -262,6 +265,7 @@ export const toolIcons: Record<string, string> = {
   'compound-interest-calculator': 'trend', 'loan-comparison-calculator': 'scale', 'discount-calculator': 'tag', 'savings-goal-calculator': 'target',
   'fd-calculator': 'wallet', 'rd-calculator': 'calc', 'ppf-calculator': 'trend', 'hra-calculator': 'home',
   '401k-calculator': 'trend', 'retirement-calculator': 'target', 'auto-loan-calculator': 'calc', 'mortgage-refinance-calculator': 'scale',
+  'tip-split-calculator': 'percent', 'currency-converter': 'scale', 'expense-tracker': 'wallet', 'tax-deadline-calendar': 'clock',
 };
-export const categoryIcons: Record<string, string> = { loans: 'home', investing: 'trend', 'tax-salary': 'wallet', shopping: 'tag' };
+export const categoryIcons: Record<string, string> = { loans: 'home', investing: 'trend', 'tax-salary': 'wallet', shopping: 'tag', everyday: 'target' };
 export const popularSlugs = ['emi-calculator', 'sip-calculator', 'income-tax-calculator-india', 'mortgage-calculator', 'paycheck-calculator', 'compound-interest-calculator'];

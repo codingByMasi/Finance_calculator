@@ -125,6 +125,37 @@
       "expect": [
         "$1,102.50"
       ]
+    },
+    {
+      "id": "us-irs-401k-2026",
+      "title": "IRS: 2026 401(k) and IRA limits",
+      "url": "https://www.irs.gov/newsroom/401k-limit-increases-to-24500-for-2026-ira-limit-increases-to-7500",
+      "kind": "html",
+      "config": "src/config/retirement-us.ts",
+      "expect": [
+        "24,500",
+        "8,000",
+        "11,250",
+        "7,500"
+      ]
+    },
+    {
+      "id": "us-irs-1040es",
+      "title": "IRS: Form 1040-ES (2026)",
+      "url": "https://www.irs.gov/pub/irs-pdf/f1040es.pdf",
+      "kind": "pdf",
+      "config": "src/config/deadlines.ts",
+      "expect": []
+    },
+    {
+      "id": "us-irs-when-to-file",
+      "title": "IRS: When to file",
+      "url": "https://www.irs.gov/filing/individuals/when-to-file",
+      "kind": "html",
+      "config": "src/config/deadlines.ts",
+      "expect": [
+        "April 15, 2026"
+      ]
     }
   ]
 }

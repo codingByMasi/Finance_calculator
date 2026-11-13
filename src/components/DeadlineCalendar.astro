@@ -1,0 +1,53 @@
+---
+import { deadlines } from '../config/deadlines';
+import { fmtDate } from '../lib/data-status';
+const events = [...deadlines.events].sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
+const label = { in: 'India', us: 'United States' } as const;
+---
+<div class="calculator-shell deadline-shell" data-deadline-app>
+  <section class="input-panel" aria-labelledby="dl-opts-h">
+    <div class="panel-heading"><div><span aria-hidden="true">1</span><h2 id="dl-opts-h">Options</h2></div></div>
+    <div class="field">
+      <label for="dl-country">Show</label>
+      <select id="dl-country"><option value="all">India and United States</option><option value="in">India</option><option value="us">United States</option></select>
+    </div>
+    <div class="field">
+      <label for="dl-reminder">Reminder in the calendar file</label>
+      <select id="dl-reminder"><option value="0">None</option><option value="1">1 day before</option><option value="3">3 days before</option><option value="7">7 days before</option></select>
+    </div>
+    <div class="field consent-row"><input type="checkbox" id="dl-past" /><label for="dl-past">Show dates that have passed</label></div>
+    <button type="button" class="primary-button" data-dl-all>Download upcoming dates (.ics)</button>
+    <p class="hint">The .ics file works with Google Calendar, Apple Calendar, Outlook and most other calendar apps. It is created in your browser.</p>
+    <p class="privacy-note"><span>Dates were read on the official pages linked in each row on {fmtDate(deadlines.lastUpdated)}. Authorities can change them, so confirm on the link before relying on a date.</span></p>
+  </section>
+  <div class="result-column">
+    <section class="result-card" aria-labelledby="dl-list-h">
+      <h2 id="dl-list-h" class="sr-only">Confirmed dates</h2>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Confirmed tax dates">
+        <table class="schedule-table deadline-table">
+          <thead><tr><th scope="col">Date</th><th scope="col">What</th><th scope="col">Status</th><th scope="col">Source</th><th scope="col"><span class="sr-only">Add to calendar</span></th></tr></thead>
+          <tbody>
+            {events.map((e) => (
+              <tr data-dl-row data-country={e.country} data-date={e.date} data-id={e.id}>
+                <th scope="row">{fmtDate(e.date)}</th>
+                <td class="dl-what"><strong>{e.title}</strong><br /><span class="hint">{label[e.country]} · {e.who}. {e.note}</span></td>
+                <td data-dl-status>Check date</td>
+                <td class="dl-source"><a href={e.source.url} rel="noopener">{e.source.label}</a></td>
+                <td><button type="button" class="text-button" data-dl-one={e.id}>Add to calendar</button></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="share-status" data-dl-empty role="status" hidden>No dates match these options.</p>
+      <div class="dl-pending">
+        <h3>Not included yet</h3>
+        <p class="hint">These dates could not be confirmed on an official page, so no date is shown.</p>
+        <ul>{deadlines.pending.map((p) => <li><strong>{label[p.country]}:</strong> {p.title}. {p.reason}</li>)}</ul>
+      </div>
+      <p class="estimate-note">Dates only. Not tax advice and not a statement of which dates apply to you.</p>
+    </section>
+  </div>
+  <script type="application/json" id="deadline-data" set:html={JSON.stringify(events)}></script>
+</div>
+<script>import '../scripts/deadlines';</script>

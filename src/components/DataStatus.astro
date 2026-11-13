@@ -1,8 +1,8 @@
 ---
-import { toolDataStatus } from '../lib/data-status';
+import { toolDataStatus, fxSnapshot } from '../lib/data-status';
 interface Props { slug: string }
 const s = toolDataStatus(Astro.props.slug);
-const tag = { confirmed: 'Confirmed', unverified: 'Not yet confirmed', 'not-modelled': 'Not included' } as const;
+const tag = { confirmed: 'Confirmed', unverified: 'Not yet confirmed', 'not-modelled': 'Not included', indicative: 'Indicative' } as const;
 ---
 {s && (
   <section class="data-status" aria-label="Tax year and data status">
@@ -13,4 +13,8 @@ const tag = { confirmed: 'Confirmed', unverified: 'Not yet confirmed', 'not-mode
       ))}
     </ul>
   </section>
+)}
+{Astro.props.slug === 'currency-converter' && (
+  <p class="data-status fx-stale" data-fx-date={fxSnapshot.date} role="status" hidden>These rates are more than a week old. The automated daily update may not have run, so they may differ noticeably from current rates.</p>
+  <script>import '../scripts/fx-stale';</script>
 )}

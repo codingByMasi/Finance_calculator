@@ -1,0 +1,8 @@
+---
+import ExpenseTracker from './ExpenseTracker.astro';
+import DeadlineCalendar from './DeadlineCalendar.astro';
+interface Props { slug: string }
+const { slug } = Astro.props;
+---
+{slug === 'expense-tracker' && <ExpenseTracker />}
+{slug === 'tax-deadline-calendar' && <DeadlineCalendar />}

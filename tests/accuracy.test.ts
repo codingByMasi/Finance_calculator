@@ -1,3 +1,4 @@
+import { deadlines } from '../src/config/deadlines';
 import { savingsIndia } from '../src/config/savings-india';
 import { hraIndia } from '../src/config/hra-india';
 import { retirementUS } from '../src/config/retirement-us';
@@ -73,6 +74,7 @@ describe('data changelog stays in step with the configs', () => {
     ['savings-india', savingsIndia.lastUpdated],
     ['hra-india', hraIndia.lastUpdated],
     ['retirement-us', retirementUS.lastUpdated],
+    ['deadlines', deadlines.lastUpdated],
   ])('%s has a changelog entry dated its lastUpdated (%s)', (area, date) => {
     expect(dataChangelog.some((e) => e.area === area && e.date === date)).toBe(true);
   });

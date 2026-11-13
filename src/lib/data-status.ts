@@ -4,6 +4,8 @@ import { gstIndia } from '../config/gst-india';
 import { savingsIndia } from '../config/savings-india';
 import { hraIndia } from '../config/hra-india';
 import { retirementUS } from '../config/retirement-us';
+import { deadlines } from '../config/deadlines';
+import fx from '../data/fx-rates.json';
 import sourcesJson from '../config/data-sources.json';
 import statusJson from '../data/source-status.json';
 
@@ -35,6 +37,8 @@ export function dataForTool(slug: string): { updated: string; label: string } {
   if (slug === 'income-tax-calculator-india') return { updated: dataUpdated.india, label: `India tax data, FY ${taxIndia.financialYear}` };
   if (slug === 'paycheck-calculator') return { updated: dataUpdated.us, label: `US tax data, tax year ${taxUS.taxYear}` };
   if (slug === 'gst-calculator') return { updated: dataUpdated.gst, label: 'GST rate list' };
+  if (slug === 'currency-converter') return { updated: fx.date, label: 'exchange-rate snapshot' };
+  if (slug === 'tax-deadline-calendar') return { updated: deadlines.lastUpdated, label: 'deadline dates' };
   if (slug === 'ppf-calculator') return { updated: dataUpdated.savings, label: 'PPF rate and deposit limits' };
   if (slug === 'hra-calculator') return { updated: dataUpdated.hra, label: 'HRA exemption rules' };
   if (slug === '401k-calculator') return { updated: dataUpdated.retirement, label: `${retirementUS.planYear} 401(k) limits` };
@@ -46,7 +50,8 @@ export function fmtDate(d: string | null): string {
   return new Date(d + 'T00:00:00Z').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
 }
 
-export interface DataStatusItem { label: string; status: 'confirmed' | 'unverified' | 'not-modelled'; note: string }
+export interface DataStatusItem { label: string; status: 'confirmed' | 'unverified' | 'not-modelled' | 'indicative'; note: string }
+export const fxSnapshot = { date: fx.date, source: fx.source };
 export interface ToolDataStatus { year: string; items: DataStatusItem[] }
 
 /**
@@ -83,6 +88,15 @@ export function toolDataStatus(slug: string): ToolDataStatus | null {
       return { year: `${retirementUS.planYear} plan year`, items: [
         { label: 'Contribution and catch-up limits', status: retirementUS.verified ? 'confirmed' : 'unverified', note: retirementUS.verificationNote },
       ] };
+    case 'currency-converter':
+      return { year: `Rates dated ${fmtDate(fx.date)}`, items: [
+        { label: 'Exchange rates', status: 'indicative', note: `${fx.source}, copied by an automated job. Reference rates only; banks and card networks use their own rates and fees.` },
+      ] };
+    case 'tax-deadline-calendar':
+      return { year: 'Dates for 2026 returns and payments', items: [
+        { label: 'US dates listed', status: 'confirmed', note: 'Read on irs.gov pages linked in each row.' },
+        { label: 'India dates and the US 2026-return deadline', status: 'not-modelled', note: 'Not included because they were not confirmed on an official page.' },
+      ] };
     default: return null;
   }
 }
@@ -95,4 +109,5 @@ export const dataConfigs = [
   { file: 'src/config/savings-india.ts', verified: savingsIndia.verified, tools: ['ppf-calculator'] },
   { file: 'src/config/hra-india.ts', verified: hraIndia.verified, tools: ['hra-calculator'] },
   { file: 'src/config/retirement-us.ts', verified: retirementUS.verified, tools: ['401k-calculator'] },
+  { file: 'src/config/deadlines.ts', verified: deadlines.verified, tools: ['tax-deadline-calendar'] },
 ];

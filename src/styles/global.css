@@ -374,3 +374,13 @@ html[data-consent="denied"] .ad-slot { display: none; }
 @media (max-width: 640px) { .cookie { max-height: 85vh; overflow: auto; } .cookie-actions { grid-column: 1 / -1; justify-content: stretch; } .cookie-actions button { flex: 1; } }
 .advice-banner { display: flex; gap: 10px; align-items: flex-start; border: 1px solid var(--border); background: var(--surface); border-radius: 12px; padding: 10px 14px; margin: 0 0 14px; font-size: 13.5px; color: var(--muted); }
 .advice-banner strong { color: var(--text); }
+.advice-banner a, .data-status a, .schedule a, .template-notice a, .consent-row a, .guide-tools a, .cookie p a { text-decoration: underline; }
+.data-status .indicative .tag { color: var(--muted); }
+.exp-table { max-height: 300px; margin: 8px 20px 0; }
+.exp-month { padding: 14px 20px 0; }
+.storage-warning { color: #92400e; font-size: 13px; margin: 8px 0 0; }
+:root.dark .storage-warning { color: #fbbf24; }
+.deadline-table td, .deadline-table th { white-space: normal; text-align: left; vertical-align: top; }
+.dl-pending { padding: 4px 20px 6px; } .dl-pending ul { padding-left: 18px; font-size: 14px; }
+.dl-what .hint { color: var(--muted); font-size: 12.5px; }
+.data-status a, .deadline-table a, .exp-table a { text-decoration: underline; }

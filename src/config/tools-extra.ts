@@ -161,6 +161,82 @@ export const extraTools: Tool[] = [
     ],
     related: ['mortgage-calculator', 'auto-loan-calculator', 'loan-comparison-calculator'],
   },
+  {
+    slug: 'tip-split-calculator', title: 'Tip and Bill Split Calculator', shortTitle: 'Tip & Bill Split', country: 'both', category: 'everyday',
+    description: 'Estimate the tip, the total and each person\'s share of a bill, with an option to round every share up to a whole unit.',
+    about: [
+      'Splitting a bill takes three steps: work out the tip, add it to the bill, and divide the total by the number of people. This calculator does all three and shows each step.',
+      'Enter the bill before tip, the tip percentage you intend to leave and the number of people. Tipping customs differ between countries, venues and services, and in some places a service charge is already included, so the percentage is yours to enter. Nothing is pre-selected as a rule.',
+      'If you choose to round each share up to a whole unit, the group pays slightly more than the total; the calculator shows how much extra that is. All shares are assumed equal, so it does not handle people who ordered different amounts.',
+    ],
+    formula: 'Tip = bill × tip % ÷ 100\nTotal = bill + tip\nShare per person = total ÷ number of people\nRounded share = share rounded up to the next whole unit.',
+    assumptions: ['Everyone pays an equal share.', 'The tip is a percentage of the bill before tip.', 'Any service charge or tax already on the bill is treated as part of the bill.'],
+    faq: [
+      { q: 'How is the tip calculated?', a: 'Tip = bill × tip percentage ÷ 100. The worked example shows the steps using the default values.' },
+      { q: 'Is the tip calculated on the bill with tax?', a: 'It is calculated on whatever amount you enter as the bill. Enter the pre-tax or post-tax amount, depending on how you want to tip.' },
+      { q: 'Why does rounding up add money?', a: 'Each person\'s share is rounded up, so the shares add up to a little more than the total. The calculator shows the difference.' },
+      { q: 'Can it split unevenly?', a: 'No. It divides the total equally.' },
+      { q: 'Does it work in rupees?', a: 'Yes, choose Indian rupee in the currency field.' },
+    ],
+    related: ['discount-calculator', 'sales-tax-calculator', 'gst-calculator'],
+  },
+  {
+    slug: 'currency-converter', title: 'Currency Converter (Approximate Reference Rates)', shortTitle: 'Currency Converter', country: 'both', category: 'everyday',
+    description: 'Convert between USD, INR, EUR, GBP and other major currencies using dated reference rates. Approximate, not a bank or card rate.',
+    about: [
+      'This converter multiplies an amount by the ratio of two exchange rates taken from the same dated table. The table holds the European Central Bank\'s euro foreign exchange reference rates, copied by an automated job each weekday and committed with its date, so the date on the page is the date of the rates.',
+      'These are reference rates, not rates you can trade at. Banks, card networks and money-transfer services add a margin or fees and use their own rates, so the amount you actually receive will usually differ. The converter makes no request to any rate service from your browser; it uses the snapshot published with the page.',
+      'If the snapshot is more than a week old the page says so. Currencies the European Central Bank does not publish a rate for, such as the UAE dirham, are not available.',
+    ],
+    formula: 'Rates are quoted per 1 euro.\nConverted amount = amount × rate(to) ÷ rate(from)',
+    assumptions: ['Rates are daily reference rates, not the rate on a particular transaction.', 'No fees, margins or taxes are included.', 'The date shown on the page is the date of the rates.'],
+    faq: [
+      { q: 'Where do the rates come from?', a: 'From the European Central Bank\'s euro reference rates, fetched through the free Frankfurter service by an automated job and saved with their date.' },
+      { q: 'Will my bank give me the same rate?', a: 'Usually not. Providers add a margin or fees and may use rates from a different time of day.' },
+      { q: 'How often are the rates updated?', a: 'The job runs each weekday. If it fails, the previous snapshot stays and its date stays visible.' },
+      { q: 'Why is a currency missing?', a: 'Only currencies in the reference table are included. Others cannot be converted without making up a rate.' },
+      { q: 'Does the page contact a rate service when I use it?', a: 'No. The rates are part of the page, so using the converter sends nothing to a third party.' },
+    ],
+    related: ['compound-interest-calculator', 'discount-calculator', 'loan-comparison-calculator'],
+  },
+  {
+    slug: 'expense-tracker', kind: 'app', title: 'Expense Tracker (Stays in Your Browser)', shortTitle: 'Expense Tracker', country: 'both', category: 'everyday',
+    description: 'Record daily expenses by category, see monthly totals and a category chart, and export to CSV. Entries stay in your browser.',
+    about: [
+      'The expense tracker keeps a simple list of what you spend. Add an entry with a date, an amount, a category and an optional note, then pick a month to see the total, a breakdown by category and a chart.',
+      'Everything is stored in your browser\'s local storage on this device. There are no accounts, nothing is sent to a server, and clearing your browser data removes the entries. Because the data lives only on this device, use the CSV export if you want a copy or want to move to another device.',
+      'The totals add up exactly what you enter. They are not budgets, forecasts or advice, and amounts are stored in cents or paise to avoid rounding errors. If your browser blocks storage, the tracker still works for the current visit and tells you the entries will not be saved.',
+    ],
+    formula: 'Monthly total = sum of the entries dated in that month\nCategory total = sum of the entries in that category and month\nAmounts are stored as whole cents or paise.',
+    assumptions: ['One currency per list, chosen at the top.', 'Entries are stored only in this browser on this device.', 'Totals are sums of what you enter and are not checked against any bank record.'],
+    faq: [
+      { q: 'Where is my data stored?', a: 'In your browser\'s local storage on this device. It is not uploaded anywhere.' },
+      { q: 'What happens if I clear my browser data?', a: 'The entries are deleted. Export a CSV first if you want to keep them.' },
+      { q: 'Can I use it on two devices?', a: 'Each device keeps its own list. Export a CSV from one and keep it as a record; there is no sync.' },
+      { q: 'Is there a limit?', a: 'Up to 5,000 entries and 120 characters per note.' },
+      { q: 'Can I change the categories?', a: 'The category list is fixed. Use the note field for detail.' },
+    ],
+    related: ['savings-goal-calculator', 'tip-split-calculator', 'hourly-to-salary-calculator'],
+  },
+  {
+    slug: 'tax-deadline-calendar', kind: 'app', title: 'Tax and Filing Deadline Calendar (India and US)', shortTitle: 'Deadline Calendar', country: 'both', category: 'everyday',
+    description: 'Tax and filing dates that have been confirmed on official pages, with links to each source and calendar (.ics) downloads. Dates can change.',
+    about: [
+      'This calendar lists tax and filing dates that were read on an official government page, each with a link to that page. You can add a single date or all upcoming dates to your own calendar app as an .ics file.',
+      'It deliberately lists fewer dates than many sites: a date appears only if it was confirmed on an official source. Dates that could not be confirmed, which at the moment includes the Indian income tax and GST dates, are shown separately as not included instead of being guessed.',
+      'Authorities can extend or change deadlines, and deadlines that fall on a weekend or holiday may move. Always confirm a date on the linked page before relying on it. The calendar does not know your circumstances and is not tax advice.',
+    ],
+    formula: 'No calculation. Each row is a date taken from the source linked on that row.',
+    assumptions: ['Dates are as published on the linked page when it was read; later changes may not be shown.', 'The listed dates are general; whether a date applies to you depends on your situation.', 'Dates not confirmed on an official page are not listed.'],
+    faq: [
+      { q: 'Where do the dates come from?', a: 'Each row links to the official page it was read from, such as an IRS form or page.' },
+      { q: 'Why are there no India dates?', a: 'They could not be confirmed on an official page when this was built, so they are listed as not included instead of guessed.' },
+      { q: 'What is in the .ics file?', a: 'All-day events with the title, a short note, the source link and an optional reminder, for any calendar app that reads .ics files.' },
+      { q: 'Are the dates final?', a: 'No. Authorities can change them, and they can move if they fall on a weekend or holiday. Check the source link.' },
+      { q: 'Does it tell me which dates apply to me?', a: 'No. It lists general dates and who they usually concern.' },
+    ],
+    related: ['paycheck-calculator', 'income-tax-calculator-india', 'hra-calculator'],
+  },
 ];
 
 function hraShare(n: number): number { return Math.round(n * 100); }

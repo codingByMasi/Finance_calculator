@@ -6,6 +6,7 @@ import AdSlot from '../components/AdSlot.astro';
 import Icon from '../components/Icon.astro';
 import SourcesBlock from '../components/SourcesBlock.astro';
 import DataStatus from '../components/DataStatus.astro';
+import AppTool from '../components/AppTool.astro';
 import { savingsIndia } from '../config/savings-india';
 import { hraIndia } from '../config/hra-india';
 import { retirementUS } from '../config/retirement-us';
@@ -13,7 +14,7 @@ import { editorial, personJsonLd, organizationJsonLd } from '../config/editorial
 import { toolReferences } from '../config/references';
 import { SITE_NAME, SITE_URL, CATEGORIES } from '../config/site';
 import { dataForTool, sourcesLastChecked, fmtDate } from '../lib/data-status';
-import { toolBySlug, toolIcons, type Tool } from '../config/tools';
+import { toolBySlug, toolIcons, isCalculator, type Tool } from '../config/tools';
 import { getToolDef } from '../lib/tools';
 import { defaults } from '../lib/tools/types';
 import { taxIndia } from '../config/tax-india';
@@ -25,8 +26,9 @@ const { tool } = Astro.props;
 const cat = CATEGORIES.find((c) => c.slug === tool.category)!;
 const path = `/${tool.slug}/`;
 const url = SITE_URL + path;
-const def = getToolDef(tool.slug);
-const example = def.compute(defaults(def.fields));
+const calc = isCalculator(tool);
+const def = calc ? getToolDef(tool.slug) : null;
+const example = def ? def.compute(defaults(def.fields)) : null;
 const taxy = tool.category === 'tax-salary' || ['gst-calculator', 'sales-tax-calculator', 'ppf-calculator', 'hra-calculator', '401k-calculator'].includes(tool.slug);
 const related = tool.related.map(toolBySlug).filter((t): t is Tool => !!t);
 
@@ -66,7 +68,7 @@ const jsonLd = [
 
     <p class="advice-banner" role="note"><Icon name="info" size={18} /><span><strong>{taxy ? 'Estimates only. Not tax, financial or legal advice.' : 'Estimates only. Not financial or legal advice.'}</strong> {taxy ? 'Results apply published rules to the numbers you enter, not to your full circumstances, and the site is not a tax preparer. ' : 'Results depend on the numbers you enter and on the assumptions listed below. '}See the <a href="/disclaimer/">disclaimer</a>.</span></p>
     <DataStatus slug={tool.slug} />
-    <CalculatorTool slug={tool.slug} />
+    {calc ? <CalculatorTool slug={tool.slug} /> : <AppTool slug={tool.slug} />}
 
     <div class:list={['lower-content']}>
       <article class="article">
@@ -75,9 +77,11 @@ const jsonLd = [
         <h3>Formula</h3>
         <pre class="formula">{tool.formula}</pre>
         <SourcesBlock slug={tool.slug} />
-        <h3>Worked example</h3>
-        <p>Using the default values above, here is each step of the calculation:</p>
-        <ol class="worked">{example.steps.map((s) => <li>{s}</li>)}</ol>
+        {example && (<>
+          <h3>Worked example</h3>
+          <p>Using the default values above, here is each step of the calculation:</p>
+          <ol class="worked">{example.steps.map((s) => <li>{s}</li>)}</ol>
+        </>)}
 
         <section class="assumption-box" aria-labelledby="assume-h">
           <Icon name="info" size={20} />

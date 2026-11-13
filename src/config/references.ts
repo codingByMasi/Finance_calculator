@@ -4,13 +4,14 @@ import { gstIndia } from './gst-india';
 import { savingsIndia } from './savings-india';
 import { hraIndia } from './hra-india';
 import { retirementUS } from './retirement-us';
+import { deadlines } from './deadlines';
 import sources from './data-sources.json';
 import { money, pct } from '../lib/format';
 
 export interface Reference { label: string; url: string; kind: 'official' | 'secondary' | 'method' }
 
 const titleFor = (url: string): string => sources.sources.find((s) => s.url === url)?.title ?? new URL(url).hostname;
-const kindFor = (url: string): Reference['kind'] => (/\.gov(\.[a-z]{2})?$/.test(new URL(url).hostname) ? 'official' : 'secondary');
+const kindFor = (url: string): Reference['kind'] => (/(\.gov(\.[a-z]{2})?|\.europa\.eu)$/.test(new URL(url).hostname) ? 'official' : 'secondary');
 const refs = (urls: string[]): Reference[] => urls.map((url) => ({ label: titleFor(url), url, kind: kindFor(url) }));
 
 /** Sources for each calculator page, drawn from the data configs (never retyped here). */
@@ -22,6 +23,8 @@ export function toolReferences(slug: string): Reference[] {
     case 'ppf-calculator': return refs(savingsIndia.sourceUrls);
     case 'hra-calculator': return refs(hraIndia.sourceUrls);
     case '401k-calculator': return refs(retirementUS.sourceUrls);
+    case 'currency-converter': return refs(['https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html', 'https://api.frankfurter.dev/v1/latest?base=EUR']);
+    case 'tax-deadline-calendar': return refs([...new Set(deadlines.events.map((e) => e.source.url))]);
     case 'auto-loan-calculator': return refs(['https://www.consumerfinance.gov/consumer-tools/auto-loans/']);
     case 'mortgage-calculator': return refs(['https://consumerfinance.gov/about-us/blog/your-mortgage-calculator-may-be-setting-you-surprise']);
     case 'compound-interest-calculator': return refs(['https://www.consumerfinance.gov/ask-cfpb/what-is-compound-interest-en-1683/']);

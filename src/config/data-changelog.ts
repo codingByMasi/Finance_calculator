@@ -2,10 +2,15 @@
  * Data changelog: one entry for every change to the tax/rate configs. The test suite checks that each config's
  * `lastUpdated` date has a matching entry here, so the two cannot drift apart. Newest first.
  */
-export type DataArea = 'india-tax' | 'us-tax' | 'gst' | 'savings-india' | 'hra-india' | 'retirement-us';
+export type DataArea = 'india-tax' | 'us-tax' | 'gst' | 'savings-india' | 'hra-india' | 'retirement-us' | 'deadlines';
 export interface ChangelogEntry { date: string; area: DataArea; summary: string; sources: string[] }
 
 export const dataChangelog: ChangelogEntry[] = [
+  {
+    date: '2026-11-13', area: 'deadlines',
+    summary: 'Added the deadline calendar with US estimated-tax payment dates for 2026 (IRS Form 1040-ES) and the tax year 2025 filing date (IRS). India dates and the US 2026-return deadline are not included because they were not confirmed on an official page.',
+    sources: ['https://www.irs.gov/pub/irs-pdf/f1040es.pdf', 'https://www.irs.gov/filing/individuals/when-to-file'],
+  },
   {
     date: '2026-11-13', area: 'retirement-us',
     summary: 'Added the 2026 401(k) limits ($24,500; catch-up $8,000 from age 50 and $11,250 at ages 60 to 63) from the IRS news release.',
@@ -43,7 +48,7 @@ export const dataChangelog: ChangelogEntry[] = [
   },
 ];
 
-export const areaLabels: Record<DataArea, string> = { 'india-tax': 'India income tax', 'us-tax': 'US federal and state tax', gst: 'India GST rates', 'savings-india': 'India PPF rate and limits', 'hra-india': 'India HRA rules', 'retirement-us': 'US 401(k) limits' };
+export const areaLabels: Record<DataArea, string> = { 'india-tax': 'India income tax', 'us-tax': 'US federal and state tax', gst: 'India GST rates', 'savings-india': 'India PPF rate and limits', 'hra-india': 'India HRA rules', 'retirement-us': 'US 401(k) limits', deadlines: 'Tax and filing dates' };
 
 /** Published corrections to calculator results or content. Add an entry here when an error is fixed. Newest first. */
 export interface Correction { date: string; page: string; what: string; fixed: string }

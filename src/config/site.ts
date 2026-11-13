@@ -31,5 +31,6 @@ export const CATEGORIES = [
   { slug: 'investing', title: 'Investing calculators', description: 'SIP, lumpsum, compound interest and savings goal calculators to plan long-term growth.' },
   { slug: 'tax-salary', title: 'Tax and salary calculators', description: 'Income tax, take-home pay, hourly wage and paycheck calculators for India and the US.' },
   { slug: 'shopping', title: 'Shopping calculators', description: 'GST, sales tax and discount calculators for everyday purchases.' },
+  { slug: 'everyday', title: 'Everyday money tools', description: 'An expense tracker, bill splitter, currency converter and tax deadline calendar. Data stays in your browser.' },
 ] as const;
 export type CategorySlug = (typeof CATEGORIES)[number]['slug'];
