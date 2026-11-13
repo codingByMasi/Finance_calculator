@@ -1,0 +1,20 @@
+---
+/**
+ * Reserved-height ad container. Renders NOTHING unless PUBLIC_ADSENSE_CLIENT is set.
+ * The AdSense script itself is only injected by scripts/site.ts after the visitor consents.
+ */
+import { ADSENSE_CLIENT } from '../config/site';
+interface Props { placement: 'header' | 'result' | 'sidebar'; class?: string }
+const { placement, class: cls = '' } = Astro.props;
+const slotEnv: Record<string, string> = {
+  header: import.meta.env.PUBLIC_ADSENSE_SLOT_HEADER || '',
+  result: import.meta.env.PUBLIC_ADSENSE_SLOT_RESULT || '',
+  sidebar: import.meta.env.PUBLIC_ADSENSE_SLOT_SIDEBAR || '',
+};
+const slot = slotEnv[placement];
+---
+{ADSENSE_CLIENT && (
+  <aside class={`ad-slot ad-${placement} ${cls}`} aria-label="Advertisement" data-ad-placement={placement}>
+    <ins class="adsbygoogle" style="display:block" data-ad-client={ADSENSE_CLIENT} data-ad-slot={slot || undefined} data-ad-format={slot ? undefined : 'auto'} data-full-width-responsive="true"></ins>
+  </aside>
+)}

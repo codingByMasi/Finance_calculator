@@ -1,0 +1,20 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { SITE_NAME } from '../config/site';
+---
+<PageLayout title="About" description={`About ${SITE_NAME}: free, private finance calculators for India and the US, built to be clear about their formulas and assumptions.`} path="/about/">
+  <p>{SITE_NAME} is a small collection of free finance calculators for people in India and the United States. We built it because many calculators online give you a single number with no explanation, hide their assumptions, or bury the result under clutter.</p>
+  <h2>What makes these calculators different</h2>
+  <ul>
+    <li><strong>Every formula is shown.</strong> Each page explains the maths and walks through a worked example, step by step, so you can check the answer yourself.</li>
+    <li><strong>Assumptions are stated.</strong> Each tool lists what it assumes and when its rates were last updated.</li>
+    <li><strong>Your numbers stay with you.</strong> Calculations run in your browser. We do not receive the amounts you type.</li>
+    <li><strong>Local formats.</strong> Indian tools use rupees with lakh and crore grouping; US tools use dollars.</li>
+  </ul>
+  <h2>Where the tax figures come from</h2>
+  <p>Tax slabs, deductions and rates live in clearly labelled configuration files that record an official source and a last-updated date. We aim to update them when the Income Tax Department, the IRS or state revenue departments publish new figures, and we flag any figure that has not been confirmed.</p>
+  <h2>How the site is funded</h2>
+  <p>The site may show advertising from Google AdSense. Ads only load if you accept cookies, and they never affect how a calculation is done.</p>
+  <h2>Not financial advice</h2>
+  <p>These are estimation tools, not advice. Read the <a href="/disclaimer/">disclaimer</a>, and talk to a qualified professional before making a major decision. Found a mistake? Please <a href="/contact/">tell us</a>.</p>
+</PageLayout>

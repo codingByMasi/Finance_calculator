@@ -1,0 +1,13 @@
+---
+import Icon from './Icon.astro';
+import { SITE_NAME } from '../config/site';
+---
+<div id="consent" class="cookie" role="region" aria-label="Cookie consent" hidden>
+  <span class="cookie-icon"><Icon name="cookie" size={20} /></span>
+  <div>
+    <strong>Cookies, only if you want them</strong>
+    <p>{SITE_NAME} loads advertising (Google AdSense) and analytics only if you accept. Calculations never leave your browser. <a href="/privacy-policy/">Privacy policy</a>.</p>
+  </div>
+  <button id="consent-reject" type="button" class="text-button">Reject</button>
+  <button id="consent-accept" type="button" class="primary-button">Accept</button>
+</div>

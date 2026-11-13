@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolCard from '../components/ToolCard.astro';
+import { tools } from '../config/tools';
+---
+<BaseLayout title="Page not found" description="The page you are looking for does not exist. Try one of our finance calculators." path="/404/" noindex>
+  <div class="not-found">
+    <p class="error-code" aria-hidden="true">404</p>
+    <h1>Page not found</h1>
+    <p>That page does not exist or has moved. Here are some popular calculators:</p>
+    <div class="tools-grid nf-grid">{tools.slice(0, 3).map((t) => <ToolCard tool={t} />)}</div>
+    <p><a href="/">Back to the home page</a></p>
+  </div>
+</BaseLayout>

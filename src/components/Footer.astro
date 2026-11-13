@@ -1,0 +1,31 @@
+---
+import { SITE_NAME, CATEGORIES } from '../config/site';
+import Icon from './Icon.astro';
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="logo"><span class="logo-mark" aria-hidden="true"><Icon name="calc" size={19} /></span><span>{SITE_NAME}</span></a>
+        <p>Free finance calculators for India and the US. Clear formulas, worked examples and honest assumptions.</p>
+        <span>Estimates only, not financial advice.</span>
+      </div>
+      <nav class="footer-links" aria-label="Calculators">
+        <strong>Calculators</strong>
+        <a href="/in/">India</a><a href="/us/">United States</a>
+        {CATEGORIES.map((c) => <a href={`/${c.slug}/`}>{c.title.replace(' calculators', '')}</a>)}
+      </nav>
+      <nav class="footer-links" aria-label="Company">
+        <strong>Company</strong>
+        <a href="/about/">About</a><a href="/contact/">Contact</a>
+      </nav>
+      <nav class="footer-links" aria-label="Legal">
+        <strong>Legal</strong>
+        <a href="/privacy-policy/">Privacy Policy</a><a href="/terms/">Terms</a><a href="/disclaimer/">Disclaimer</a>
+        <button type="button" data-open-consent>Cookie settings</button>
+      </nav>
+    </div>
+    <div class="footer-bottom"><span>© {year} {SITE_NAME}</span><span>Calculations run in your browser.</span></div>
+  </div>
+</footer>

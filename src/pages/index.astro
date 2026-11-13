@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolCard from '../components/ToolCard.astro';
+import Icon from '../components/Icon.astro';
+import { SITE_NAME, SITE_TAGLINE, SITE_URL, CATEGORIES, CONTENT_LAST_UPDATED } from '../config/site';
+import { tools, toolsByCategory, toolBySlug, popularSlugs, categoryIcons, type Tool } from '../config/tools';
+const popular = popularSlugs.map(toolBySlug).filter((t): t is Tool => !!t);
+const index = tools.map((t) => ({ title: t.shortTitle, slug: t.slug, description: t.description }));
+---
+<BaseLayout
+  title={`${SITE_NAME}: ${SITE_TAGLINE}`}
+  description="Free EMI, SIP, GST, income tax, mortgage, paycheck and other finance calculators for India and the US. Fast, private and clear."
+  path="/"
+  country="both"
+  jsonLd={[{ '@context': 'https://schema.org', '@type': 'WebSite', name: SITE_NAME, url: SITE_URL + '/' }]}
+>
+  <section class="hero">
+    <div class="hero-orb orb-one"></div><div class="hero-orb orb-two"></div>
+    <div class="hero-inner">
+      <span class="eyebrow">Free · Private · Updated {CONTENT_LAST_UPDATED}</span>
+      <h1>{SITE_TAGLINE}</h1>
+      <p>Clear answers for loans, investing, taxes and everyday money decisions. Every calculation runs in your browser and shows its formula and a worked example.</p>
+      <div class="hero-controls">
+        <div class="search-wrap large">
+          <Icon name="search" size={18} />
+          <label for="tool-search" class="sr-only">Search calculators</label>
+          <input id="tool-search" type="search" placeholder="Search calculators, e.g. EMI or mortgage" autocomplete="off" aria-controls="search-results" />
+          <ul id="search-results" class="search-results" hidden></ul>
+        </div>
+        <div role="group" aria-label="Choose country" class="segmented">
+          <a href="/in/" data-country-link="in">India</a>
+          <a href="/us/" data-country-link="us">US</a>
+        </div>
+      </div>
+      <p id="search-status" class="sr-only" aria-live="polite"></p>
+      <div class="hero-proof">
+        <span><Icon name="shield" size={15} /> Nothing you enter leaves your browser</span>
+        <span><Icon name="calc" size={15} /> Formula and worked example on every tool</span>
+        <span><Icon name="clock" size={15} /> No sign-up</span>
+      </div>
+    </div>
+  </section>
+  <script type="application/json" id="tool-index" set:html={JSON.stringify(index)}></script>
+
+  <section class="section" aria-labelledby="popular-h">
+    <div class="section-heading">
+      <div><span class="kicker">Popular</span><h2 id="popular-h">Most used calculators</h2></div>
+    </div>
+    <div class="tools-grid">{popular.map((t) => <ToolCard tool={t} />)}</div>
+  </section>
+
+  <section class="section categories-section" aria-labelledby="cats-h">
+    <div class="section-heading"><div><span class="kicker">Browse</span><h2 id="cats-h">By category</h2></div></div>
+    <div class="category-grid">
+      {CATEGORIES.map((c, i) => (
+        <a class="category-card" href={`/${c.slug}/`}>
+          <span class:list={['category-icon', ['', 'amber', 'violet', 'blue'][i]]}><Icon name={categoryIcons[c.slug]} size={20} /></span>
+          <span><strong>{c.title.replace(' calculators', '')}</strong><small>{toolsByCategory(c.slug).length} calculators</small></span>
+          <Icon name="arrow" size={16} />
+        </a>
+      ))}
+    </div>
+    <p class="all-links">All calculators: {tools.map((t, i) => <><a href={`/${t.slug}/`}>{t.shortTitle}</a>{i < tools.length - 1 && ' · '}</>)}</p>
+  </section>
+
+  <section class="trust" aria-labelledby="trust-h">
+    <div class="trust-intro">
+      <span class="trust-icon"><Icon name="shield" size={22} /></span>
+      <div><span class="kicker">Why trust the numbers</span><h2 id="trust-h">Built to be checked</h2></div>
+    </div>
+    <div class="trust-points">
+      <div><span>01</span><strong>Formulas in the open</strong><p>Every page explains the maths and walks through a worked example step by step.</p></div>
+      <div><span>02</span><strong>Dated tax figures</strong><p>Slabs and rates live in config files with a source link and a last-updated date. Unverified figures are flagged.</p></div>
+      <div><span>03</span><strong>Private by design</strong><p>No account, no server calculations. Ads and analytics load only if you accept cookies.</p></div>
+    </div>
+  </section>
+</BaseLayout>
+<script>
+  type Item = { title: string; slug: string; description: string };
+  const input = document.getElementById('tool-search') as HTMLInputElement | null;
+  const list = document.getElementById('search-results') as HTMLUListElement | null;
+  const status = document.getElementById('search-status');
+  const data: Item[] = JSON.parse(document.getElementById('tool-index')?.textContent || '[]');
+  const render = () => {
+    if (!input || !list) return;
+    const q = input.value.trim().toLowerCase();
+    list.innerHTML = '';
+    if (!q) { list.hidden = true; return; }
+    const hits = data.filter((t) => (t.title + ' ' + t.description + ' ' + t.slug).toLowerCase().includes(q)).slice(0, 6);
+    for (const h of hits) {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = `/${h.slug}/`; a.textContent = h.title;
+      li.appendChild(a); list.appendChild(li);
+    }
+    if (!hits.length) { const li = document.createElement('li'); li.className = 'none'; li.textContent = 'No calculators match.'; list.appendChild(li); }
+    list.hidden = false;
+    if (status) status.textContent = `${hits.length} result${hits.length === 1 ? '' : 's'}`;
+  };
+  input?.addEventListener('input', render);
+  input?.addEventListener('keydown', (e) => { if (e.key === 'Escape' && list) { list.hidden = true; } if (e.key === 'Enter') { const a = list?.querySelector('a'); if (a) location.href = a.href; } });
+</script>

@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ToolCard from '../../components/ToolCard.astro';
+import { SITE_URL } from '../../config/site';
+import { toolsByCountry } from '../../config/tools';
+const list = toolsByCountry('in');
+---
+<BaseLayout
+  title="Finance Calculators for India"
+  description="EMI, SIP and lumpsum returns, GST and salary-after-tax calculators built for Indian rupees, with lakh and crore formatting, plus calculators that work in any currency."
+  path="/in/"
+  country="in"
+  jsonLd={[{ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL + '/' },
+    { '@type': 'ListItem', position: 2, name: 'India', item: SITE_URL + '/in/' }] }]}
+>
+  <div class="calculator-heading"><Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: 'India' }]} /></div>
+  <div class="page-intro"><h1>Finance Calculators for India</h1><p>EMI, SIP and lumpsum returns, GST and salary-after-tax calculators built for Indian rupees, with lakh and crore formatting, plus calculators that work in any currency.</p></div>
+  <div class="tools-grid">
+    {list.map((t) => <ToolCard tool={t} />)}
+  </div>
+</BaseLayout>

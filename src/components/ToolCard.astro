@@ -1,0 +1,15 @@
+---
+import Icon from './Icon.astro';
+import { countryLabel, toolIcons, type Tool } from '../config/tools';
+interface Props { tool: Tool }
+const { tool } = Astro.props;
+---
+<a class="tool-card" href={`/${tool.slug}/`}>
+  <span class="tool-icon"><Icon name={toolIcons[tool.slug] ?? 'calc'} size={22} /></span>
+  <span class="tool-copy">
+    <span class="tag">{countryLabel(tool.country)}</span>
+    <strong>{tool.shortTitle}</strong>
+    <small>{tool.description}</small>
+  </span>
+  <Icon name="arrow" size={16} class="card-arrow" />
+</a>

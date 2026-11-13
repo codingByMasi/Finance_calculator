@@ -1,0 +1,64 @@
+---
+import { getToolDef } from '../lib/tools';
+import { defaults, cur } from '../lib/tools/types';
+import { resultHtml } from '../lib/results';
+import { chartHtml } from '../lib/chart';
+import AdSlot from './AdSlot.astro';
+import Icon from './Icon.astro';
+interface Props { slug: string }
+const { slug } = Astro.props;
+const def = getToolDef(slug);
+const initial = defaults(def.fields);
+const result = def.compute(initial);
+const symbol = cur(initial, def.currency) === 'INR' ? '₹' : '$';
+const visible = (f: (typeof def.fields)[number]) => !f.showIf || f.showIf.in.includes(String(initial[f.showIf.field]));
+const progress = (f: (typeof def.fields)[number]) => {
+  const min = f.min ?? 0, max = f.sliderMax ?? f.max ?? 100;
+  return `${Math.max(0, Math.min(100, ((Number(f.default) - min) / (max - min || 1)) * 100))}%`;
+};
+---
+<div data-calculator data-slug={slug} class="calculator-shell">
+  <section class="input-panel" aria-labelledby="inputs-h">
+    <div class="panel-heading">
+      <div><span aria-hidden="true">1</span><h2 id="inputs-h">Your details</h2></div>
+      <small>Updates as you type</small>
+    </div>
+    <form novalidate autocomplete="off">
+      {def.fields.map((f) => (
+        <div class="field" data-show-field={f.showIf?.field} data-show-in={f.showIf?.in.join(',')} hidden={!visible(f)}>
+          <label for={`f-${f.id}`}>{f.label}</label>
+          {f.type === 'select' ? (
+            <select id={`f-${f.id}`} name={f.id} aria-describedby={`d-${f.id}`}>
+              {f.options!.map((o) => <option value={o.value} selected={String(f.default) === o.value}>{o.label}</option>)}
+            </select>
+          ) : (
+            <div class="input-wrap">
+              {f.prefix && <span class="affix pre" aria-hidden="true">{f.prefix === 'cur' ? <span data-cur>{symbol}</span> : f.prefix}</span>}
+              <input id={`f-${f.id}`} name={f.id} type="number" inputmode="decimal" value={String(f.default)} min={f.min} max={f.max} step={f.step === 'any' ? 'any' : f.step} aria-describedby={`d-${f.id} e-${f.id}`} />
+              {f.suffix && <span class="affix" aria-hidden="true">{f.suffix}</span>}
+            </div>
+          )}
+          {f.slider && (
+            <input class="range" type="range" data-for={f.id} aria-label={`${f.label} slider`} min={f.min ?? 0} max={f.sliderMax ?? f.max} step={f.step === 'any' ? 1 : f.step} value={String(f.default)} style={`--range-progress:${progress(f)}`} />
+          )}
+          <p class="hint" id={`d-${f.id}`} hidden={!f.hint}>{f.hint}</p>
+          <p class="field-error" id={`e-${f.id}`}></p>
+        </div>
+      ))}
+    </form>
+    <p class="privacy-note"><Icon name="lock" size={15} /><span>Everything is calculated in your browser. The numbers you enter are never sent to a server.</span></p>
+  </section>
+  <div class="result-column">
+    <section class="result-card" aria-labelledby="results-h">
+      <h2 id="results-h" class="sr-only">Results</h2>
+      <div data-results aria-live="polite" aria-atomic="true" set:html={resultHtml(result)} />
+      <div data-chart class="chart-box" set:html={chartHtml(result.chart)} />
+    </section>
+    <AdSlot placement="result" />
+  </div>
+  <div class="mobile-result" data-mobile-result>
+    <div><small>{result.headline.label}</small><strong data-mobile-value>{result.headline.value}</strong></div>
+    <a href="#results-h">Details</a>
+  </div>
+</div>
+<script>import '../scripts/calculator';</script>

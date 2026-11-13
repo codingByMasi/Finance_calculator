@@ -1,0 +1,23 @@
+---
+import Icon from './Icon.astro';
+import { SITE_NAME, CATEGORIES } from '../config/site';
+---
+<header class="topbar">
+  <div class="nav-shell">
+    <a href="/" class="logo" aria-label={`${SITE_NAME} home`}>
+      <span class="logo-mark" aria-hidden="true"><Icon name="calc" size={19} /></span>
+      <span>{SITE_NAME}</span>
+    </a>
+    <nav id="site-nav" class="nav-links" aria-label="Main">
+      {CATEGORIES.map((c) => <a href={`/${c.slug}/`}>{c.title.replace(' calculators', '')}</a>)}
+    </nav>
+    <div class="nav-actions">
+      <div role="group" aria-label="Country" class="segmented compact">
+        <a href="/in/" data-country-link="in">India</a>
+        <a href="/us/" data-country-link="us">US</a>
+      </div>
+      <button id="theme-toggle" type="button" class="icon-button" aria-label="Toggle dark mode" aria-pressed="false"><Icon name="moon" size={17} /></button>
+      <button id="menu-toggle" type="button" class="icon-button menu-button" aria-label="Menu" aria-expanded="false" aria-controls="site-nav"><Icon name="menu" size={18} /></button>
+    </div>
+  </div>
+</header>

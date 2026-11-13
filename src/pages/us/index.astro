@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ToolCard from '../../components/ToolCard.astro';
+import { SITE_URL } from '../../config/site';
+import { toolsByCountry } from '../../config/tools';
+const list = toolsByCountry('us');
+---
+<BaseLayout
+  title="Finance Calculators for the US"
+  description="Mortgage, paycheck, sales tax and hourly-to-salary calculators in US dollars, plus calculators that work in any currency."
+  path="/us/"
+  country="us"
+  jsonLd={[{ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL + '/' },
+    { '@type': 'ListItem', position: 2, name: 'United States', item: SITE_URL + '/us/' }] }]}
+>
+  <div class="calculator-heading"><Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: 'United States' }]} /></div>
+  <div class="page-intro"><h1>Finance Calculators for the US</h1><p>Mortgage, paycheck, sales tax and hourly-to-salary calculators in US dollars, plus calculators that work in any currency.</p></div>
+  <div class="tools-grid">
+    {list.map((t) => <ToolCard tool={t} />)}
+  </div>
+</BaseLayout>

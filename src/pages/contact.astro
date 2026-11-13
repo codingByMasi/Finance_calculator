@@ -1,0 +1,15 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { SITE_NAME, CONTACT_EMAIL } from '../config/site';
+---
+<PageLayout title="Contact" description={`Contact ${SITE_NAME}: report a calculation error, suggest a calculator or ask a question.`} path="/contact/" showUpdated={false}>
+  <p>We read every message about errors, outdated tax figures and calculator ideas.</p>
+  <p><strong>Email:</strong> <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></p>
+  <p><!-- TODO: set CONTACT_EMAIL in src/config/site.ts to your real address. --><mark>[PLACEHOLDER: replace this email with your real contact address in <code>src/config/site.ts</code>.]</mark></p>
+  <h2>When reporting a problem</h2>
+  <ul>
+    <li>Tell us which calculator you used and the exact numbers you entered.</li>
+    <li>Say what result you expected and where you found that figure.</li>
+  </ul>
+  <p>We cannot give personal financial, tax or legal advice by email.</p>
+</PageLayout>

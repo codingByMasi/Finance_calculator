@@ -1,0 +1,4 @@
+# ads.txt placeholder. Replace this file once your AdSense account is approved.
+# Format: google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+# Find your publisher ID (pub-...) in AdSense > Account > Settings > Account information.
+# Until then this file intentionally contains no active records.

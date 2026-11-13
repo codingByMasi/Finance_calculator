@@ -1,0 +1,28 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { SITE_NAME, CONTACT_EMAIL } from '../config/site';
+---
+<PageLayout title="Privacy Policy" description={`How ${SITE_NAME} handles data: no calculator inputs collected, cookies, Google AdSense advertising and analytics only with your consent.`} path="/privacy-policy/">
+  <p>This policy explains what information {SITE_NAME} (the "Site") collects, how it is used and the choices you have.</p>
+  <h2>Calculator inputs stay in your browser</h2>
+  <p>All calculations run locally in your browser. The numbers you type into a calculator are not sent to our servers and are not stored by us.</p>
+  <h2>Information stored in your browser</h2>
+  <p>We use your browser's local storage to remember your preferences: your country choice (India or US), light or dark mode, and your cookie consent decision. This stays on your device.</p>
+  <h2>Cookies</h2>
+  <p>Cookies are small files placed on your device. The Site itself needs no cookies to work. With your consent, third parties we use for advertising and analytics may set cookies or use similar technologies. You can accept or reject these in the cookie banner, and change your choice at any time using "Cookie settings" in the footer. Rejecting does not limit any calculator.</p>
+  <h2>Google AdSense and advertising</h2>
+  <p>We may show ads served by Google AdSense. Google and its partners may use cookies and similar technologies to serve and measure ads, including ads based on your prior visits to this or other websites. The AdSense script is loaded only after you accept cookies. You can learn how Google uses data from sites that use its services at <a href="https://policies.google.com/technologies/partner-sites" rel="noopener">policies.google.com/technologies/partner-sites</a>, and manage ad personalisation at <a href="https://adssettings.google.com" rel="noopener">adssettings.google.com</a>.</p>
+  <h2>Analytics</h2>
+  <p>If you accept cookies, we may use an analytics service such as Google Analytics to understand which pages are used and how the Site performs. This data is aggregated and does not include the numbers you enter into calculators. Analytics scripts are loaded only after consent.</p>
+  <h2>Server logs</h2>
+  <p>Our hosting provider (Cloudflare) processes standard technical data such as IP address, browser type and requested page to deliver and secure the Site.</p>
+  <h2>Your rights</h2>
+  <p>Depending on where you live (for example under the GDPR, India's Digital Personal Data Protection Act or US state privacy laws) you may have rights to access, correct or delete personal data, and to opt out of targeted advertising. Because we do not collect personal data through the calculators, most such requests relate only to third-party ad and analytics providers; you can exercise those through their settings or by contacting us.</p>
+  <h2>Children</h2>
+  <p>The Site is not directed to children under 13 and we do not knowingly collect their personal information.</p>
+  <h2>Changes</h2>
+  <p>We may update this policy. The date at the top shows when it was last revised.</p>
+  <h2>Contact</h2>
+  <p>Privacy questions: <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p>
+  <p><mark>[PLACEHOLDER: replace the contact email above with your real address by editing <code>CONTACT_EMAIL</code> in <code>src/config/site.ts</code>. Also add your legal business name or your name here if required in your jurisdiction.]</mark></p>
+</PageLayout>

@@ -1,0 +1,17 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { CONTENT_LAST_UPDATED } from '../config/site';
+interface Props { title: string; description: string; path: string; showUpdated?: boolean }
+const { title, description, path, showUpdated = true } = Astro.props;
+---
+<BaseLayout title={title} description={description} path={path}>
+  <div class="calculator-heading"><Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: title }]} /></div>
+  <article class="static-article">
+    <h1>{title}</h1>
+    <p class="lead">{description}</p>
+    <div class="article-rule"></div>
+    <div class="prose-page"><slot /></div>
+    {showUpdated && <p class="static-meta">Last updated: {CONTENT_LAST_UPDATED}</p>}
+  </article>
+</BaseLayout>
