@@ -1,0 +1,33 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { SITE_NAME } from '../config/site';
+---
+<PageLayout legal title="Cookie Policy" description={`What cookies and similar technologies ${SITE_NAME} uses, what each is for, how long it lasts and how to change your choice.`} path="/cookie-policy/">
+  <p>Cookies are small files that a website or a third party places on your device. "Similar technologies" include local storage and tracking pixels. This page lists what {SITE_NAME} uses and how to control it. See the <a href="/privacy-policy/">Privacy Policy</a> for how personal data is handled more generally.</p>
+
+  <h2>Your choice</h2>
+  <p>When you first visit, a banner lets you accept all, reject all or choose advertising and analytics separately. Nothing in those two groups loads until you agree. You can change your mind at any time with <strong>Cookie settings</strong> in the footer. If your browser sends a Global Privacy Control signal, we keep advertising and analytics off.</p>
+
+  <h2>Strictly necessary storage (no consent needed)</h2>
+  <p>These items are stored in your browser's local storage, not sent to us, and make the Site work the way you set it up.</p>
+  <table class="figure-table">
+    <thead><tr><th scope="col">Name</th><th scope="col">Purpose</th><th scope="col">Lasts</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">fch_consent_v2</th><td>Remembers your cookie choices and when you made them</td><td>12 months, then we ask again</td></tr>
+      <tr><th scope="row">fch_theme</th><td>Remembers light or dark mode</td><td>Until you clear browser storage</td></tr>
+      <tr><th scope="row">fch_country</th><td>Remembers whether you chose India or the US</td><td>Until you clear browser storage</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Advertising (only if you accept)</h2>
+  <p>If advertising is switched on, Google AdSense loads and Google and its partners may set or read cookies and similar identifiers to deliver and measure ads and, where permitted, to personalise them. The exact cookies are set by Google and can change; Google describes them at <a href="https://policies.google.com/technologies/cookies" rel="noopener">policies.google.com/technologies/cookies</a> and <a href="https://policies.google.com/technologies/partner-sites" rel="noopener">policies.google.com/technologies/partner-sites</a>. You can also manage personalised ads at <a href="https://adssettings.google.com" rel="noopener">adssettings.google.com</a>.</p>
+
+  <h2>Analytics (only if you accept, and only if analytics is configured)</h2>
+  <p>If analytics is switched on, we use Google Analytics, which sets cookies such as <code>_ga</code> and <code>_ga_&lt;id&gt;</code> to tell visits and pages apart and to measure how the Site is used. IP addresses are anonymised. Analytics does not include the numbers you enter into calculators.</p>
+
+  <h2>Withdrawing consent</h2>
+  <p>If you turn advertising or analytics off after accepting, the page reloads without those scripts and we remove the analytics cookies we can reach. Cookies set by Google for its own domains may remain until they expire; you can delete them in your browser settings.</p>
+
+  <h2>Browser controls</h2>
+  <p>Most browsers let you block or delete cookies. Blocking strictly necessary storage means preferences such as dark mode are not remembered, but every calculator still works.</p>
+</PageLayout>

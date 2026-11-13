@@ -11,7 +11,7 @@ const index = tools.map((t) => ({ title: t.shortTitle, slug: t.slug, description
 ---
 <BaseLayout
   title={`${SITE_NAME}: ${SITE_TAGLINE}`}
-  description="Free EMI, SIP, GST, income tax, mortgage, paycheck and other finance calculators for India and the US. Fast, private and clear."
+  description="Free calculators that estimate EMI, SIP, FD, PPF, GST, income tax, mortgage, 401(k) and paycheck figures for India and the US. Estimates only, not advice."
   path="/"
   country="both"
   jsonLd={[{ '@context': 'https://schema.org', '@type': 'WebSite', name: SITE_NAME, url: SITE_URL + '/', publisher: { '@id': `${SITE_URL}/#organization` } }, organizationJsonLd()]}
@@ -21,7 +21,7 @@ const index = tools.map((t) => ({ title: t.shortTitle, slug: t.slug, description
     <div class="hero-inner">
       <span class="eyebrow">Free · Private · Tax data updated {fmtDate(dataUpdated.any)}</span>
       <h1>{SITE_TAGLINE}</h1>
-      <p>Clear answers for loans, investing, taxes and everyday money decisions. Every calculation runs in your browser and shows its formula and a worked example.</p>
+      <p>Clear estimates for loans, investing, taxes and everyday money questions. Every calculation runs in your browser and shows its formula and a worked example. Results are estimates and are not advice.</p>
       <div class="hero-controls">
         <div class="search-wrap large">
           <Icon name="search" size={18} />

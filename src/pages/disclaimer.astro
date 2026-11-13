@@ -1,9 +1,15 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import { SITE_NAME } from '../config/site';
+import { SITE_NAME, OPERATOR } from '../config/site';
 ---
-<PageLayout title="Disclaimer" description={`${SITE_NAME} calculators provide estimates only and are not financial, tax or legal advice.`} path="/disclaimer/">
+<PageLayout legal title="Disclaimer" description={`${SITE_NAME} calculators provide estimates only and are not financial, tax or legal advice.`} path="/disclaimer/">
   <p><strong>Estimates only, not financial advice.</strong> The calculators and content on {SITE_NAME} are for general information and education. They are not financial, investment, tax, accounting or legal advice, and nothing here is a recommendation to buy, sell or borrow.</p>
+  <h2>Who we are not</h2>
+  <p>Unless a page says otherwise, {OPERATOR.name} is not a registered investment adviser or research analyst (in India, with SEBI; in the United States, with the SEC or a state), and is not a broker, bank, lender, insurer, chartered accountant, certified public accountant, enrolled agent or tax return preparer. We do not prepare, file or review tax returns, give personalised advice or act as a fiduciary. Reading or using the Site does not create an advisory, professional or client relationship.</p>
+  <h2>Tax</h2>
+  <p>Tax figures are shown for the tax year stated on each page. Where a figure has not been confirmed from a primary source it is labelled "not yet confirmed", and some figures, such as special GST rates or local taxes, are not modelled. Tax results illustrate how published rules apply to the numbers you enter. They do not take account of your full circumstances, and they are not tax advice.</p>
+  <h2>Official bodies</h2>
+  <p>We name bodies such as the Income Tax Department, the IRS and the Consumer Financial Protection Bureau only to show the source of a figure. We are not affiliated with, endorsed by or acting for any of them, and these calculators are not official calculators of any government or financial institution.</p>
   <h2>Accuracy</h2>
   <p>Results depend on the numbers you enter and on simplifying assumptions, which are listed on every calculator page. Actual outcomes differ: lenders round and charge fees, investment returns vary, and tax depends on your full circumstances. Tax slabs, rates and limits change; each tax calculator shows when its figures were last updated and where they come from, and some figures may be marked as not yet verified.</p>
   <h2>Investment returns</h2>

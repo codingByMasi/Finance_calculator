@@ -1,4 +1,4 @@
-import { mortgage } from '../../calc/loan';
+import { mortgage, amortizationSchedule } from '../../calc/loan';
 import { money, pct } from '../../format';
 import { num, type ToolDef } from '../types';
 
@@ -45,6 +45,7 @@ export const def: ToolDef = {
         { label: 'Principal & interest', value: r.principalAndInterest }, { label: 'Property tax', value: r.propertyTaxMonthly },
         { label: 'Insurance', value: r.insuranceMonthly }, { label: 'HOA', value: r.hoaMonthly }] } : undefined,
       notes: ['Does not include PMI (usually required below 20% down), closing costs or maintenance.'],
+      schedule: { currency: 'USD', rows: amortizationSchedule(r.loanAmount, rate, n), filename: 'mortgage-schedule' },
     };
   },
 };

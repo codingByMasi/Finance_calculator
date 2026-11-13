@@ -1,4 +1,5 @@
 import type { CategorySlug } from './site';
+import { extraTools } from './tools-extra';
 
 export type Country = 'in' | 'us' | 'both';
 export interface Faq { q: string; a: string }
@@ -17,10 +18,10 @@ export interface Tool {
 }
 
 /** Single source of truth: drives nav, category pages, country pages, sitemap, JSON-LD and related-tool blocks. */
-export const tools: Tool[] = [
+const baseTools: Tool[] = [
   {
     slug: 'emi-calculator', title: 'EMI Calculator for Home, Car and Personal Loans', shortTitle: 'EMI Calculator', country: 'in', category: 'loans',
-    description: 'Work out your monthly EMI, total interest and total payment for a home, car or personal loan in India, with a year-by-year balance chart.',
+    description: 'Estimate your monthly EMI, total interest and total payment for a home, car or personal loan in India, with a year-by-year balance chart.',
     about: [
       'An EMI, or equated monthly instalment, is the fixed amount you pay your lender every month until a loan is cleared. Each instalment covers two things: the interest charged on the balance still owed, and a slice of the original principal. Early in the loan most of the EMI is interest; towards the end almost all of it is principal.',
       'This calculator takes three inputs, the loan amount, the yearly interest rate and the tenure, and returns the EMI, the total interest you will pay over the life of the loan and the total amount repaid. The chart shows how the outstanding balance falls year by year, which makes it easy to see why a longer tenure lowers the EMI but raises the total interest.',
@@ -30,7 +31,7 @@ export const tools: Tool[] = [
     assumptions: ['Fixed interest rate for the whole tenure (floating-rate loans change).', 'Instalments are paid monthly, at the end of each month, with no processing fees, insurance or prepayments.', 'Rounding by your lender may differ by a few rupees.'],
     faq: [
       { q: 'How is EMI calculated?', a: 'EMI = P × r × (1 + r)^n ÷ ((1 + r)^n − 1), where P is the principal, r the monthly interest rate and n the number of months. The worked example on this page shows each step with real numbers.' },
-      { q: 'Does a longer tenure save money?', a: 'It lowers the monthly EMI but increases the total interest, because you owe money for longer. Choose the shortest tenure whose EMI you can comfortably afford.' },
+      { q: 'Does a longer tenure save money?', a: 'It lowers the monthly EMI but increases the total interest, because you owe money for longer. A shorter tenure raises the EMI but lowers the total interest; the loan comparison calculator shows both side by side.' },
       { q: 'What happens if the interest rate is 0%?', a: 'With a zero rate the EMI is simply the loan amount divided by the number of months, and total interest is zero.' },
       { q: 'Does this include processing fees or insurance?', a: 'No. Processing fees, GST on fees and loan insurance are extra costs. Add them separately to judge the true cost of a loan.' },
       { q: 'Can I use it for a floating-rate loan?', a: 'Yes, as an estimate at today\'s rate. If your rate changes, rerun the calculation with the new rate and the remaining tenure.' },
@@ -41,7 +42,7 @@ export const tools: Tool[] = [
     slug: 'sip-calculator', title: 'SIP and Lumpsum Returns Calculator', shortTitle: 'SIP & Lumpsum Calculator', country: 'in', category: 'investing',
     description: 'Estimate the future value of a monthly SIP or a one-time lumpsum investment in India, with invested amount, gain and a growth chart.',
     about: [
-      'A systematic investment plan, or SIP, invests a fixed amount every month, usually in a mutual fund. Because you buy regularly, you do not need to guess the best day to invest, and your money starts compounding from the first instalment. A lumpsum investment puts the whole amount to work on day one.',
+      'A systematic investment plan, or SIP, invests a fixed amount every month, usually in a mutual fund. Because you buy regularly, you do not need to time the market, and your money starts compounding from the first instalment. A lumpsum investment puts the whole amount to work on day one.',
       'Pick SIP or lumpsum, enter the amount, an expected yearly return and the number of years, and the calculator shows the estimated future value, the amount you put in and the gain. The chart plots invested money against projected value so you can see compounding speed up in later years.',
       'The return you enter is an assumption, not a promise. Equity returns swing from year to year, so it helps to run a cautious case, a middle case and an optimistic case. Doubling the investment period usually matters far more than a small change in the monthly amount, which is why starting early is the main lever.',
     ],
@@ -49,7 +50,7 @@ export const tools: Tool[] = [
     assumptions: ['Constant return every year; real markets are volatile.', 'SIP instalments are made at the start of each month.', 'Taxes, exit loads and expense ratios are not deducted.'],
     faq: [
       { q: 'What return should I enter?', a: 'There is no guaranteed figure. Many people test 8%, 10% and 12% a year for equity funds and lower figures for debt funds. Use conservative numbers when planning goals.' },
-      { q: 'SIP or lumpsum: which is better?', a: 'If you have a large sum now, a lumpsum has more time to grow in rising markets, but a SIP spreads the entry price over time. The right choice depends on your cash flow and risk tolerance.' },
+      { q: 'SIP or lumpsum: which is better?', a: 'If you have a large sum now, a lumpsum has more time to grow in rising markets, but a SIP spreads the entry price over time. The outcome depends on cash flow, timing and risk tolerance, and neither approach is certain to do better.' },
       { q: 'Why is the SIP formula multiplied by (1 + r)?', a: 'It assumes each instalment is invested at the start of the month, so every payment earns one extra month of growth compared with paying at month end.' },
       { q: 'Does the calculator include tax?', a: 'No. Capital gains tax rules change and depend on the asset type and holding period, so subtract the tax that applies to you from the gain shown.' },
       { q: 'What if I set the return to 0%?', a: 'The future value then equals the total amount invested: monthly amount multiplied by the number of months.' },
@@ -58,7 +59,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'gst-calculator', title: 'GST Calculator: Add or Remove GST', shortTitle: 'GST Calculator', country: 'in', category: 'shopping',
-    description: 'Add GST to a price or remove it from a GST-inclusive price, with CGST and SGST split. Free GST calculator for India.',
+    description: 'Estimate the GST on a price, or the base price in a GST-inclusive amount, with a CGST and SGST split. Free GST calculator for India.',
     about: [
       'Goods and Services Tax is collected on most sales in India and is charged as a percentage of the pre-tax price. Shopkeepers, freelancers and small businesses often need to go in both directions: add GST to a quote, or work backwards from a bill that already includes it.',
       'Choose Add GST to turn a pre-tax price into a total, or Remove GST to split a GST-inclusive amount into the base price and tax. Select the rate that applies to your item and the calculator shows the GST amount, the CGST and SGST halves for an intra-state sale, and the final price.',
@@ -77,7 +78,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'income-tax-calculator-india', title: 'Salary After Income Tax Calculator (New vs Old Regime)', shortTitle: 'Salary After Tax (India)', country: 'in', category: 'tax-salary',
-    description: 'Compare new and old tax regimes in India and see your annual and monthly take-home salary after income tax, rebate and cess.',
+    description: 'Compare estimated income tax under the new and old regimes in India, with approximate annual and monthly take-home pay after rebate and cess.',
     about: [
       'Indian salaried taxpayers can choose between the new tax regime, with lower slab rates and few deductions, and the old regime, with higher slab rates but deductions such as Section 80C, 80D and HRA. Which one leaves more money in your pocket depends on how much you actually claim.',
       'Enter your annual gross salary and the deductions you expect to claim under the old regime. The calculator works out taxable income under both regimes, applies the slab rates, the Section 87A rebate, any surcharge and the 4% health and education cess, and then tells you which regime gives the lower tax and by how much.',
@@ -87,7 +88,7 @@ export const tools: Tool[] = [
     assumptions: ['Resident individual under 60 with salary income only.', 'Rates and limits are those in src/config/tax-india.ts; some are flagged for verification there.', 'Surcharge marginal relief and employee PF are not modelled.'],
     faq: [
       { q: 'Which regime is better for me?', a: 'The calculator compares both on your numbers. As a rule, the old regime tends to win when your claimable deductions (80C, 80D, HRA, home-loan interest) are large relative to your income.' },
-      { q: 'What is the Section 87A rebate?', a: 'A rebate that can reduce your tax to nil if your taxable income is within the limit set for your regime. Limits are listed in the tax config, and marginal relief applies just above the new-regime limit.' },
+      { q: 'What is the Section 87A rebate?', a: 'A rebate that can bring the tax to nil when taxable income is within the limit set for the regime. Limits are listed in the tax config, and marginal relief applies just above the new-regime limit.' },
       { q: 'What is health and education cess?', a: 'A 4% levy added on top of income tax (plus any surcharge) in both regimes.' },
       { q: 'Does this include standard deduction?', a: 'Yes. A flat standard deduction for salaried people is applied under both regimes, at the amounts in the tax config.' },
       { q: 'How current are the tax figures?', a: 'The page shows the date the config was last updated. Treat the output as an estimate and confirm with the official tax calculator or a professional.' },
@@ -115,7 +116,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'paycheck-calculator', title: 'Paycheck and Take-Home Pay Calculator by State', shortTitle: 'Paycheck Calculator', country: 'us', category: 'tax-salary',
-    description: 'Estimate your US take-home pay after federal income tax, Social Security, Medicare and state tax. Choose your state and pay frequency.',
+    description: 'Estimate your approximate US take-home pay after federal income tax, Social Security, Medicare and state tax, by state and pay frequency.',
     about: [
       'Your gross salary and the amount that lands in your bank account can differ by 20 to 35 percent. Federal income tax, Social Security and Medicare (together called FICA) come out of every paycheck, and most states take their own share on top.',
       'Enter your annual salary, how often you are paid, your filing status and your state. If you contribute to a 401(k) or HSA, enter the yearly amount: those contributions lower your income tax but not your FICA tax. The calculator shows what you keep per paycheck, per month and per year, plus a chart of where each dollar goes.',
@@ -134,7 +135,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'sales-tax-calculator', title: 'Sales Tax Calculator', shortTitle: 'Sales Tax Calculator', country: 'us', category: 'shopping',
-    description: 'Add sales tax to a price or find the pre-tax price from a total. Free US sales tax calculator with a clear breakdown.',
+    description: 'Estimate sales tax on a price, or the pre-tax price from a total, with a clear breakdown. Rates vary by location, so enter your local rate.',
     about: [
       'US sales tax is added at the register and varies by state, county and city. The sticker price is rarely what you pay, so it helps to know the real total before you buy, or to back out the tax from a receipt.',
       'Enter the amount and your combined sales tax rate. Choose Add sales tax to get the total, or Find the price before tax to work backwards from a tax-inclusive total. The results show the pre-tax price, the tax amount and the total, with a simple chart of how much of the total is tax.',
@@ -153,7 +154,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'hourly-to-salary-calculator', title: 'Hourly to Salary Calculator', shortTitle: 'Hourly to Salary', country: 'us', category: 'tax-salary',
-    description: 'Convert an hourly wage to annual, monthly, biweekly, weekly and daily pay. Adjust hours per week and unpaid time off.',
+    description: 'Estimate annual, monthly, biweekly, weekly and daily pay from an hourly wage, with adjustable hours per week and unpaid time off.',
     about: [
       'Job offers are often quoted as an hourly wage, while budgets and loan applications use annual or monthly income. Converting between them sounds trivial, but small assumptions about hours and time off change the answer by thousands of dollars.',
       'Enter your hourly rate, the hours you work in a typical week and the weeks you work in a year. If some of your time off is unpaid, enter those weeks separately so they are removed from the total. The calculator shows annual, monthly, biweekly, weekly and daily gross pay and the hours worked in the year.',
@@ -172,7 +173,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'compound-interest-calculator', title: 'Compound Interest Calculator', shortTitle: 'Compound Interest', country: 'both', category: 'investing',
-    description: 'See how a balance grows with compound interest. Choose yearly, monthly or daily compounding and view the year-by-year growth chart.',
+    description: 'Estimate how a balance could grow with compound interest at yearly, monthly or daily compounding, with a year-by-year growth chart.',
     about: [
       'Compound interest means you earn interest on your interest. Each period the interest is added to the balance, and the next period\'s interest is calculated on the larger amount. Over short periods the effect is small; over decades it becomes the main driver of growth.',
       'Enter a starting amount, a yearly interest rate, the number of years and how often interest compounds. The calculator returns the final amount, the interest earned and the growth multiple, and plots the balance year by year. Switch the currency between US dollars and Indian rupees to see familiar number formatting.',
@@ -191,7 +192,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'loan-comparison-calculator', title: 'Loan Comparison Calculator', shortTitle: 'Loan Comparison', country: 'both', category: 'loans',
-    description: 'Compare two loans side by side: monthly payment, total interest and total cost. Works in US dollars or Indian rupees.',
+    description: 'Compare two loans side by side with estimated monthly payment, total interest and total cost. Works in US dollars or Indian rupees.',
     about: [
       'Two loan offers can look similar and cost very different amounts. A lower rate with a longer term may carry a smaller monthly payment but a higher total cost, while a shorter loan costs more each month and saves interest.',
       'Enter the amount, interest rate and term for Loan A and Loan B. The calculator computes the monthly payment, total interest and total paid for each, then tells you which is cheaper overall and by how much. The summary chart compares total interest so the gap is obvious at a glance.',
@@ -201,7 +202,7 @@ export const tools: Tool[] = [
     assumptions: ['Fixed rates and equal monthly payments.', 'Fees, insurance and prepayment options are not included.'],
     faq: [
       { q: 'How do I know which loan is cheaper?', a: 'Compare the total paid. The loan with the lower total cost is cheaper overall, though it may have a higher monthly payment.' },
-      { q: 'Should I choose the lowest monthly payment?', a: 'Not automatically. A lower monthly payment often comes from a longer term, which usually means more total interest. Balance affordability and total cost.' },
+      { q: 'Does the lowest monthly payment mean the cheapest loan?', a: 'Not necessarily. A lower monthly payment often comes from a longer term, which usually means more total interest. The comparison shows both the monthly payment and the total cost.' },
       { q: 'Can I compare loans of different sizes?', a: 'Yes, but the comparison is clearest for equal amounts. Different amounts will naturally differ in total cost.' },
       { q: 'Does it work for refinancing?', a: 'Yes. Enter your current loan\'s remaining balance, rate and remaining term as A, and the new offer as B, then add refinancing fees yourself.' },
       { q: 'Which currency is used?', a: 'Choose US dollars or Indian rupees in the first field. The maths is identical; only the formatting changes.' },
@@ -210,7 +211,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'discount-calculator', title: 'Discount and Sale Price Calculator', shortTitle: 'Discount Calculator', country: 'both', category: 'shopping',
-    description: 'Find the sale price, amount saved and effective discount after a percentage off, including an optional extra coupon.',
+    description: 'Estimate the sale price, amount saved and effective discount after a percentage off, including an optional extra coupon.',
     about: [
       'Sales are advertised in percentages, but what matters is the price you pay and the money you keep. This calculator turns a percentage discount into a final price, the amount saved and the effective discount for the whole purchase.',
       'Enter the original price and the discount percentage. If a coupon or second offer stacks on top, enter it in the extra discount field. Extra discounts apply to the already reduced price, not the original, so 20% off followed by 10% off is a 28% total discount rather than 30%.',
@@ -229,9 +230,9 @@ export const tools: Tool[] = [
   },
   {
     slug: 'savings-goal-calculator', title: 'Savings Goal Calculator', shortTitle: 'Savings Goal', country: 'both', category: 'investing',
-    description: 'Find how much to save each month to reach a savings goal by a target date, including interest on what you have already saved.',
+    description: 'Estimate how much would need to be saved each month to reach a savings goal by a target date, including interest on existing savings.',
     about: [
-      'A savings goal is easier to hit when you know the monthly number. This calculator works backwards from a target: how much do you need to put away each month to reach it in a given number of years, taking interest into account?',
+      'A savings goal is easier to hit when you know the monthly number. This calculator works backwards from a target: how much would have to be put away each month to reach it in a given number of years, taking interest into account?',
       'Enter the goal, what you have already saved, the yearly return you expect and the time you have. The result is the monthly deposit required, along with the total you will contribute and the interest you can expect to earn. The chart splits the goal into your starting savings, your deposits and interest.',
       'Use realistic returns. A savings account and a stock-market fund behave very differently, and a goal needed in three years should not rely on high market returns. If the monthly amount looks too large, extend the time, lower the goal or look for ways to raise your starting balance. If your starting balance alone will grow past the goal, the tool tells you no deposits are needed.',
     ],
@@ -247,6 +248,7 @@ export const tools: Tool[] = [
     related: ['compound-interest-calculator', 'sip-calculator', 'mortgage-calculator'],
   },
 ];
+export const tools: Tool[] = [...baseTools, ...extraTools];
 
 export const toolBySlug = (slug: string): Tool | undefined => tools.find((t) => t.slug === slug);
 export const toolsByCountry = (c: 'in' | 'us') => tools.filter((t) => t.country === c || t.country === 'both');
@@ -258,6 +260,8 @@ export const toolIcons: Record<string, string> = {
   'emi-calculator': 'calc', 'sip-calculator': 'trend', 'gst-calculator': 'percent', 'income-tax-calculator-india': 'wallet',
   'mortgage-calculator': 'home', 'paycheck-calculator': 'wallet', 'sales-tax-calculator': 'percent', 'hourly-to-salary-calculator': 'clock',
   'compound-interest-calculator': 'trend', 'loan-comparison-calculator': 'scale', 'discount-calculator': 'tag', 'savings-goal-calculator': 'target',
+  'fd-calculator': 'wallet', 'rd-calculator': 'calc', 'ppf-calculator': 'trend', 'hra-calculator': 'home',
+  '401k-calculator': 'trend', 'retirement-calculator': 'target', 'auto-loan-calculator': 'calc', 'mortgage-refinance-calculator': 'scale',
 };
 export const categoryIcons: Record<string, string> = { loans: 'home', investing: 'trend', 'tax-salary': 'wallet', shopping: 'tag' };
 export const popularSlugs = ['emi-calculator', 'sip-calculator', 'income-tax-calculator-india', 'mortgage-calculator', 'paycheck-calculator', 'compound-interest-calculator'];

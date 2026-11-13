@@ -1,0 +1,31 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { SITE_NAME, CONTACT_EMAIL, OPERATOR } from '../config/site';
+---
+<PageLayout legal title="Copyright and DMCA Notice" description={`Copyright ownership, permitted use, trademark acknowledgements and how to report infringing content on ${SITE_NAME}.`} path="/copyright/">
+  <h2>Ownership and permitted use</h2>
+  <p>The text, design, calculations and code of {SITE_NAME} belong to {OPERATOR.name} or its licensors and are protected by copyright. You may link to any page, and you may quote a short extract with a clear credit and a link back to the page. You may not copy or republish substantial parts of the Site, or present them as your own, without written permission.</p>
+
+  <h2>Third-party names and sources</h2>
+  <p>We refer to government bodies and publishers, such as the Income Tax Department of India, the Press Information Bureau, the US Internal Revenue Service, the Social Security Administration and the Consumer Financial Protection Bureau, only to identify where a figure or rule comes from. We are not affiliated with, endorsed by or sponsored by any of them. Their names and any logos belong to them. Figures are restated in our own words and tables, with a link to the source.</p>
+  <p>Other product and company names that appear are the property of their owners and are used only to describe things factually.</p>
+
+  <h2>Reporting infringement</h2>
+  <p>If you believe material on the Site infringes your copyright, send a notice to our designated agent: {OPERATOR.dmcaAgent}, by email to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. To be effective under the US Digital Millennium Copyright Act (17 U.S.C. § 512(c)(3)) a notice must include:</p>
+  <ol>
+    <li>Your physical or electronic signature, or that of a person authorised to act for the owner.</li>
+    <li>Identification of the copyrighted work you say is infringed.</li>
+    <li>Identification of the material you say infringes, with its web address, so we can find it.</li>
+    <li>Your name, postal address, telephone number and email address.</li>
+    <li>A statement that you have a good-faith belief the use is not authorised by the owner, its agent or the law.</li>
+    <li>A statement, made under penalty of perjury, that the information in the notice is accurate and that you are the owner or authorised to act for the owner.</li>
+  </ol>
+  <p>Notices about Indian copyright (Copyright Act, 1957) may be sent to the same address and should contain equivalent details.</p>
+
+  <h2>Counter-notice</h2>
+  <p>If material you posted or provided was removed and you believe that was a mistake, you can send a counter-notice with your signature, a description of the removed material and where it appeared, a statement under penalty of perjury that you believe the removal was a mistake, and your consent to the jurisdiction of the courts where you live. We may pass counter-notices to the person who sent the original notice.</p>
+
+  <h2>Repeat infringers</h2>
+  <p>Where appropriate, we will end access for people who are repeatedly found to infringe copyright.</p>
+  <p><mark>[PLACEHOLDER: US safe harbour under 17 U.S.C. § 512(c)(2) requires a designated agent registered with the US Copyright Office. Register an agent, then enter the agent's details in <code>OPERATOR.dmcaAgent</code> in <code>src/config/site.ts</code>.]</mark></p>
+</PageLayout>

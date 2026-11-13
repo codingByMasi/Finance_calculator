@@ -1,4 +1,5 @@
 import type { Currency } from '../format';
+import type { ScheduleRow } from '../calc/loan';
 
 export type Values = Record<string, number | string>;
 
@@ -28,6 +29,8 @@ export type ChartSpec =
   | { kind: 'line'; title: string; currency: Currency; xs: number[]; xLabel: string; series: { name: string; values: number[] }[] }
   | { kind: 'donut'; title: string; currency: Currency; segments: { label: string; value: number }[] };
 
+export interface ScheduleSpec { currency: Currency; rows: ScheduleRow[]; filename: string }
+
 export interface Result {
   error?: string;
   headline: { label: string; value: string };
@@ -35,6 +38,8 @@ export interface Result {
   steps: string[];
   chart?: ChartSpec;
   notes?: string[];
+  /** month-by-month payment table (loan tools); rendered as an expandable table with a CSV download */
+  schedule?: ScheduleSpec;
 }
 
 export interface ToolDef {

@@ -106,3 +106,83 @@ export function compareLoans(a: { amount: number; rate: number; months: number }
     cheaper: Math.abs(totalDiff) < 0.005 ? 'same' : totalDiff > 0 ? 'a' : 'b',
   };
 }
+
+export interface ScheduleRow { n: number; payment: number; interest: number; principal: number; balance: number }
+/**
+ * Month-by-month amortisation. The last payment is trimmed so the balance ends at exactly zero
+ * (the regular EMI is rounded in practice, so the final instalment differs slightly).
+ */
+export function amortizationSchedule(principal: number, annualRatePercent: number, months: number): ScheduleRow[] {
+  const { emi: pay, monthlyRate: r, months: n } = emi(principal, annualRatePercent, months);
+  const rows: ScheduleRow[] = [];
+  let balance = Math.max(0, principal);
+  for (let m = 1; m <= n; m++) {
+    const interest = balance * r;
+    let princ = Math.min(balance, pay - interest);
+    if (m === n) princ = balance;
+    balance = Math.max(0, balance - princ);
+    rows.push({ n: m, payment: interest + princ, interest, principal: princ, balance: balance < 0.005 ? 0 : balance });
+  }
+  return rows;
+}
+
+export interface AutoLoanInput {
+  price: number; downPayment: number; tradeIn: number; salesTaxPercent: number; fees: number;
+  /** true: sales tax is charged only on price minus trade-in (rules differ by state) */
+  tradeInReducesTax: boolean;
+  annualRatePercent: number; months: number;
+}
+export interface AutoLoanResult {
+  salesTax: number; amountFinanced: number; payment: number; totalInterest: number;
+  totalOfPayments: number; totalCost: number; months: number;
+}
+/** Amount financed = price + sales tax + fees − down payment − trade-in (never below zero). Tax and fees are financed, not paid up front. */
+export function autoLoan(i: AutoLoanInput): AutoLoanResult {
+  const price = Math.max(0, i.price), trade = Math.max(0, i.tradeIn), down = Math.max(0, i.downPayment);
+  const taxBase = Math.max(0, price - (i.tradeInReducesTax ? trade : 0));
+  const salesTax = (taxBase * Math.max(0, i.salesTaxPercent)) / 100;
+  const financed = Math.max(0, price + salesTax + Math.max(0, i.fees) - down - trade);
+  const e = emi(financed, i.annualRatePercent, i.months);
+  return { salesTax, amountFinanced: financed, payment: e.emi, totalInterest: e.totalInterest, totalOfPayments: e.totalPayment, totalCost: e.totalPayment + down + trade, months: e.months };
+}
+
+export interface RefinanceInput {
+  balance: number; currentRatePercent: number; remainingMonths: number;
+  newRatePercent: number; newMonths: number; closingCosts: number; rollCostsIntoLoan: boolean;
+}
+export interface RefinanceResult {
+  currentPayment: number; newPayment: number; monthlySavings: number;
+  newPrincipal: number; upfrontCosts: number;
+  /** months of savings needed to repay the upfront costs; null when there are no upfront costs or no monthly saving */
+  breakEvenMonths: number | null;
+  currentTotal: number; newTotal: number; /** negative = refinancing costs more over the life of the loans */ lifetimeSavings: number;
+  currentMonths: number; newMonths: number;
+}
+/**
+ * Compares the remaining payments on the current loan (re-derived from balance, rate and remaining term, so it ignores any escrow)
+ * with a new loan on the same balance (plus closing costs if rolled in). Costs paid up front count towards the new loan's total.
+ */
+export function refinance(i: RefinanceInput): RefinanceResult {
+  const balance = Math.max(0, i.balance), costs = Math.max(0, i.closingCosts);
+  const cur = emi(balance, i.currentRatePercent, i.remainingMonths);
+  const newPrincipal = balance + (i.rollCostsIntoLoan ? costs : 0);
+  const nw = emi(newPrincipal, i.newRatePercent, i.newMonths);
+  const upfront = i.rollCostsIntoLoan ? 0 : costs;
+  const monthlySavings = cur.emi - nw.emi;
+  return {
+    currentPayment: cur.emi, newPayment: nw.emi, monthlySavings, newPrincipal, upfrontCosts: upfront,
+    breakEvenMonths: upfront > 0 && monthlySavings > 0 ? Math.ceil(upfront / monthlySavings) : null,
+    currentTotal: cur.totalPayment, newTotal: nw.totalPayment + upfront, lifetimeSavings: cur.totalPayment - (nw.totalPayment + upfront),
+    currentMonths: cur.months, newMonths: nw.months,
+  };
+}
+
+/** Cumulative cash paid after each whole year for the refinance chart (payments plus any upfront costs). */
+export function refinanceCumulative(r: RefinanceResult): { year: number; current: number; refinanced: number }[] {
+  const years = Math.ceil(Math.max(r.currentMonths, r.newMonths) / 12);
+  const out = [];
+  for (let y = 0; y <= years; y++) {
+    out.push({ year: y, current: Math.min(y * 12, r.currentMonths) * r.currentPayment, refinanced: r.upfrontCosts + Math.min(y * 12, r.newMonths) * r.newPayment });
+  }
+  return out;
+}

@@ -5,6 +5,10 @@ import CalculatorTool from '../components/CalculatorTool.astro';
 import AdSlot from '../components/AdSlot.astro';
 import Icon from '../components/Icon.astro';
 import SourcesBlock from '../components/SourcesBlock.astro';
+import DataStatus from '../components/DataStatus.astro';
+import { savingsIndia } from '../config/savings-india';
+import { hraIndia } from '../config/hra-india';
+import { retirementUS } from '../config/retirement-us';
 import { editorial, personJsonLd, organizationJsonLd } from '../config/editorial';
 import { toolReferences } from '../config/references';
 import { SITE_NAME, SITE_URL, CATEGORIES } from '../config/site';
@@ -23,6 +27,7 @@ const path = `/${tool.slug}/`;
 const url = SITE_URL + path;
 const def = getToolDef(tool.slug);
 const example = def.compute(defaults(def.fields));
+const taxy = tool.category === 'tax-salary' || ['gst-calculator', 'sales-tax-calculator', 'ppf-calculator', 'hra-calculator', '401k-calculator'].includes(tool.slug);
 const related = tool.related.map(toolBySlug).filter((t): t is Tool => !!t);
 
 // Where this tool's rates come from (for the Assumptions box)
@@ -31,6 +36,9 @@ const meta =
   tool.slug === 'income-tax-calculator-india' ? { sources: taxIndia.sourceUrls, note: taxIndia.verificationNote }
   : tool.slug === 'paycheck-calculator' ? { sources: taxUS.sourceUrls, note: taxUS.verificationNote }
   : tool.slug === 'gst-calculator' ? { sources: gstIndia.sourceUrls, note: gstIndia.verificationNote }
+  : tool.slug === 'ppf-calculator' ? { sources: savingsIndia.sourceUrls, note: savingsIndia.verificationNote }
+  : tool.slug === 'hra-calculator' ? { sources: hraIndia.sourceUrls, note: hraIndia.verificationNote }
+  : tool.slug === '401k-calculator' ? { sources: retirementUS.sourceUrls, note: retirementUS.verificationNote }
   : { sources: [] as string[], note: '' };
 const data = { updated: dep.updated, label: dep.label, ...meta };
 
@@ -56,6 +64,8 @@ const jsonLd = [
       </div>
     </div>
 
+    <p class="advice-banner" role="note"><Icon name="info" size={18} /><span><strong>{taxy ? 'Estimates only. Not tax, financial or legal advice.' : 'Estimates only. Not financial or legal advice.'}</strong> {taxy ? 'Results apply published rules to the numbers you enter, not to your full circumstances, and the site is not a tax preparer. ' : 'Results depend on the numbers you enter and on the assumptions listed below. '}See the <a href="/disclaimer/">disclaimer</a>.</span></p>
+    <DataStatus slug={tool.slug} />
     <CalculatorTool slug={tool.slug} />
 
     <div class:list={['lower-content']}>

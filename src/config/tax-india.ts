@@ -16,14 +16,21 @@
 export interface Slab { upTo: number; rate: number } // upTo: Infinity for the last slab
 
 export const taxIndia = {
-  financialYear: '2026-27',
+  /** The year the figures below are confirmed for (Income Tax Department tables for assessment year 2026-27). */
+  financialYear: '2025-26',
+  assessmentYear: '2026-27',
+  /** Next year: reported unchanged in press coverage, not confirmed from the Finance Act text, so the site does not claim it. */
+  laterYear: {
+    financialYear: '2026-27',
+    note: 'Press coverage of Budget 2026-27 reports the same slabs, standard deduction and rebate, but this has not been confirmed from the Finance Act 2026 text, so these results are not presented as FY 2026-27 figures.',
+  },
   lastUpdated: '2026-11-13',
   sourceUrls: [
     'https://www.incometaxindia.gov.in/w/tax-rates',
     'https://www.incometaxindia.gov.in/w/threshold-limits-under-income-tax-act',
     'https://www.incometax.gov.in/iec/foportal/help/individual/return-applicable-1',
   ],
-  /** true only when FY 2026-27 figures are confirmed in the Finance Act text itself */
+  /** true only when the figures for every year the site covers are confirmed from primary sources */
   verified: false,
   verificationNote: 'Rates, rebate, standard deduction, 80C limit and surcharge are confirmed on the Income Tax Department website (AY 2026-27 tables). Budget 2026-27 coverage says they are unchanged for FY 2026-27; the Finance Act 2026 text itself has not been read.',
   todo: ['Confirm FY 2026-27 rates in the First Schedule of the Finance Act 2026.'],

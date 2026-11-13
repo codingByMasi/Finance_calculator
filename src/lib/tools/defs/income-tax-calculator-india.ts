@@ -33,7 +33,7 @@ export const def: ToolDef = {
     const better = n.totalTax <= o.totalTax ? n : o;
     const saving = Math.abs(n.totalTax - o.totalTax);
     return {
-      headline: { label: `Better for you: ${better.regime === 'new' ? 'New' : 'Old'} regime`, value: saving === 0 ? 'Same tax in both' : `Saves ${m(saving)} a year` },
+      headline: { label: 'Difference in yearly tax, new vs old regime', value: saving === 0 ? 'No difference' : `${m(saving)} (${better.regime === 'new' ? 'new' : 'old'} regime is lower)` },
       rows: [
         { label: 'New regime: taxable income', value: m(n.taxableIncome) },
         { label: 'New regime: total tax', value: m(n.totalTax) },
@@ -44,8 +44,8 @@ export const def: ToolDef = {
         { label: 'Effective tax rate (new / old)', value: `${pct(n.effectiveRate, 1)} / ${pct(o.effectiveRate, 1)}` },
       ],
       steps: [...steps('New regime', n), ...steps('Old regime', o)],
-      chart: better.gross > 0 ? { kind: 'donut', title: `Where your salary goes (${better.regime} regime)`, currency: 'INR', segments: [{ label: 'Take-home', value: better.netAnnual }, { label: 'Income tax', value: better.totalTax }] } : undefined,
-      notes: [`Uses FY ${taxIndia.financialYear} rules as recorded in the tax config. Excludes employee PF, professional tax and TDS timing.`],
+      chart: better.gross > 0 ? { kind: 'donut', title: `Where your salary goes (${better.regime} regime, the lower estimated tax)`, currency: 'INR', segments: [{ label: 'Take-home', value: better.netAnnual }, { label: 'Income tax', value: better.totalTax }] } : undefined,
+      notes: [`Uses FY ${taxIndia.financialYear} (AY ${taxIndia.assessmentYear}) rules as confirmed on the Income Tax Department website. Not confirmed for FY ${taxIndia.laterYear.financialYear}. Excludes employee PF, professional tax and TDS timing.`],
     };
   },
 };

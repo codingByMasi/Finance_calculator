@@ -1,0 +1,26 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { SITE_NAME, CONTACT_EMAIL } from '../config/site';
+---
+<PageLayout legal title="Accessibility Statement" description={`${SITE_NAME} aims to be usable with a keyboard, screen reader and at different zoom levels. What we have done, what we have not yet verified, and how to report a problem.`} path="/accessibility/">
+  <p>We want everyone to be able to use {SITE_NAME}. We aim to meet the Web Content Accessibility Guidelines (WCAG) 2.1 at level AA.</p>
+
+  <h2>What we have done</h2>
+  <ul>
+    <li>Every input has a visible label, and sliders have a matching number field you can type in.</li>
+    <li>The whole site can be used with a keyboard, with a visible focus outline and a "Skip to content" link.</li>
+    <li>Results are announced to screen readers when they change, and input errors are described in text.</li>
+    <li>Colours are chosen to meet contrast guidelines in light and dark mode, and information is not given by colour alone.</li>
+    <li>Charts have a text description and the same figures appear as text in the results and worked example. Payment tables are real tables with headers.</li>
+    <li>Pages reflow on small screens and when zoomed, and motion is kept to a minimum.</li>
+  </ul>
+
+  <h2>How we check</h2>
+  <p>We run automated checks (axe-core and Lighthouse) on every page in light and dark mode and at phone and desktop widths. Automated tools find only a part of the possible problems.</p>
+
+  <h2>What we have not verified</h2>
+  <p>The Site has not had an independent accessibility audit, and we have not tested with every screen reader and browser combination. We therefore do not claim full conformance with WCAG. Some third-party content, such as advertisements, is outside our control and may not meet the same standard.</p>
+
+  <h2>Tell us about a problem</h2>
+  <p>If something is hard to use, email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> with the page, what you were trying to do and the device or assistive technology you use. We aim to reply within 7 days and to fix confirmed problems promptly.</p>
+</PageLayout>

@@ -1,7 +1,9 @@
 ---
 import { getToolDef } from '../lib/tools';
 import { defaults, cur } from '../lib/tools/types';
-import { resultHtml } from '../lib/results';
+import { resultHtml, estimateLabel } from '../lib/results';
+import { scheduleHtml } from '../lib/schedule';
+import { SITE_NAME } from '../config/site';
 import { chartHtml } from '../lib/chart';
 import AdSlot from './AdSlot.astro';
 import Icon from './Icon.astro';
@@ -53,11 +55,19 @@ const progress = (f: (typeof def.fields)[number]) => {
       <h2 id="results-h" class="sr-only">Results</h2>
       <div data-results aria-live="polite" aria-atomic="true" set:html={resultHtml(result)} />
       <div data-chart class="chart-box" set:html={chartHtml(result.chart)} />
+      <div data-schedule set:html={scheduleHtml(result.schedule)} />
+      <div class="share-bar" role="group" aria-label="Share, copy or print this result">
+        <button type="button" class="text-button" data-share="link"><Icon name="link" size={15} />Copy link</button>
+        <button type="button" class="text-button" data-share="text"><Icon name="copy" size={15} />Copy results</button>
+        <button type="button" class="text-button" data-share="print"><Icon name="print" size={15} />Print</button>
+        <span class="share-status" data-share-status role="status" aria-live="polite"></span>
+      </div>
+      <p class="print-only print-head">{SITE_NAME} · estimate only, actual amounts may differ</p>
     </section>
     <AdSlot placement="result" />
   </div>
   <div class="mobile-result" data-mobile-result>
-    <div><small>{result.headline.label}</small><strong data-mobile-value>{result.headline.value}</strong></div>
+    <div><small>{estimateLabel(result.headline.label)}</small><strong data-mobile-value>{result.headline.value}</strong></div>
     <a href="#results-h">Details</a>
   </div>
 </div>

@@ -1,3 +1,6 @@
+import { savingsIndia } from '../src/config/savings-india';
+import { hraIndia } from '../src/config/hra-india';
+import { retirementUS } from '../src/config/retirement-us';
 import { describe, it, expect } from 'vitest';
 import { accuracyCases, runAccuracyCase } from '../src/lib/accuracy';
 import { emi } from '../src/lib/calc/loan';
@@ -67,6 +70,9 @@ describe('data changelog stays in step with the configs', () => {
     ['india-tax', taxIndia.lastUpdated],
     ['us-tax', taxUS.lastUpdated],
     ['gst', gstIndia.lastUpdated],
+    ['savings-india', savingsIndia.lastUpdated],
+    ['hra-india', hraIndia.lastUpdated],
+    ['retirement-us', retirementUS.lastUpdated],
   ])('%s has a changelog entry dated its lastUpdated (%s)', (area, date) => {
     expect(dataChangelog.some((e) => e.area === area && e.date === date)).toBe(true);
   });

@@ -1,4 +1,4 @@
-import { emi, amortizationByYear } from '../../calc/loan';
+import { emi, amortizationByYear, amortizationSchedule } from '../../calc/loan';
 import { money, pct, num as fmtNum } from '../../format';
 import { num, type ToolDef } from '../types';
 
@@ -48,6 +48,7 @@ export const def: ToolDef = {
       chart: rows.length > 1 ? { kind: 'line', title: 'Outstanding balance by year', currency: 'INR', xs: rows.map((r) => r.year), xLabel: 'Year', series: [{ name: 'Balance', values: rows.map((r) => r.balance) }] }
         : { kind: 'donut', title: 'Principal vs interest', currency: 'INR', segments: [{ label: 'Principal', value: P }, { label: 'Interest', value: e.totalInterest }] },
       notes: [`Over ${fmtNum(e.months, 'INR')} monthly payments.`],
+      schedule: { currency: 'INR', rows: amortizationSchedule(P, annual, e.months), filename: 'emi-schedule' },
     };
   },
 };

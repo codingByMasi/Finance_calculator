@@ -1,28 +1,66 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import { SITE_NAME, CONTACT_EMAIL } from '../config/site';
+import { SITE_NAME, CONTACT_EMAIL, OPERATOR } from '../config/site';
 ---
-<PageLayout title="Privacy Policy" description={`How ${SITE_NAME} handles data: no calculator inputs collected, cookies, Google AdSense advertising and analytics only with your consent.`} path="/privacy-policy/">
-  <p>This policy explains what information {SITE_NAME} (the "Site") collects, how it is used and the choices you have.</p>
-  <h2>Calculator inputs stay in your browser</h2>
-  <p>All calculations run locally in your browser. The numbers you type into a calculator are not sent to our servers and are not stored by us.</p>
-  <h2>Information stored in your browser</h2>
-  <p>We use your browser's local storage to remember your preferences: your country choice (India or US), light or dark mode, and your cookie consent decision. This stays on your device.</p>
-  <h2>Cookies</h2>
-  <p>Cookies are small files placed on your device. The Site itself needs no cookies to work. With your consent, third parties we use for advertising and analytics may set cookies or use similar technologies. You can accept or reject these in the cookie banner, and change your choice at any time using "Cookie settings" in the footer. Rejecting does not limit any calculator.</p>
-  <h2>Google AdSense and advertising</h2>
-  <p>We may show ads served by Google AdSense. Google and its partners may use cookies and similar technologies to serve and measure ads, including ads based on your prior visits to this or other websites. The AdSense script is loaded only after you accept cookies. You can learn how Google uses data from sites that use its services at <a href="https://policies.google.com/technologies/partner-sites" rel="noopener">policies.google.com/technologies/partner-sites</a>, and manage ad personalisation at <a href="https://adssettings.google.com" rel="noopener">adssettings.google.com</a>.</p>
-  <h2>Analytics</h2>
-  <p>If you accept cookies, we may use an analytics service such as Google Analytics to understand which pages are used and how the Site performs. This data is aggregated and does not include the numbers you enter into calculators. Analytics scripts are loaded only after consent.</p>
-  <h2>Server logs</h2>
-  <p>Our hosting provider (Cloudflare) processes standard technical data such as IP address, browser type and requested page to deliver and secure the Site.</p>
-  <h2>Your rights</h2>
-  <p>Depending on where you live (for example under the GDPR, India's Digital Personal Data Protection Act or US state privacy laws) you may have rights to access, correct or delete personal data, and to opt out of targeted advertising. Because we do not collect personal data through the calculators, most such requests relate only to third-party ad and analytics providers; you can exercise those through their settings or by contacting us.</p>
-  <h2>Children</h2>
-  <p>The Site is not directed to children under 13 and we do not knowingly collect their personal information.</p>
-  <h2>Changes</h2>
-  <p>We may update this policy. The date at the top shows when it was last revised.</p>
-  <h2>Contact</h2>
-  <p>Privacy questions: <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p>
-  <p><mark>[PLACEHOLDER: replace the contact email above with your real address by editing <code>CONTACT_EMAIL</code> in <code>src/config/site.ts</code>. Also add your legal business name or your name here if required in your jurisdiction.]</mark></p>
+<PageLayout legal title="Privacy Policy" description={`How ${SITE_NAME} handles personal data: no calculator inputs collected, cookies only with consent, advertising and analytics choices, and your rights in India, the EEA/UK and the US.`} path="/privacy-policy/">
+  <p>This policy explains what personal information {SITE_NAME} (the "Site") collects, why, who receives it and the choices and rights you have. It is written for visitors in India, the United States, the European Economic Area and the United Kingdom, and it applies wherever you are.</p>
+
+  <h2>1. Who is responsible</h2>
+  <p>The Site is operated by {OPERATOR.name}, {OPERATOR.address} ("we", "us"). For privacy matters contact <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. Our Grievance Officer is {OPERATOR.grievanceOfficer} at the same address.</p>
+
+  <h2>2. What we collect</h2>
+  <ul>
+    <li><strong>Calculator inputs.</strong> The numbers you enter are processed in your browser. They are not sent to our servers and we do not store them. If you use "Copy link", the inputs are placed in the web address only on your device; if you share that link, the person who opens it can see them.</li>
+    <li><strong>Preferences stored on your device.</strong> We use your browser's local storage for your country choice, light or dark mode and your cookie choices. This stays on your device.</li>
+    <li><strong>With your consent: advertising and analytics data.</strong> If you accept advertising cookies, Google AdSense and its partners may collect identifiers, IP address, device and browser data and information about your visit. If you accept analytics cookies, an analytics service such as Google Analytics may collect page views and similar usage data. Nothing is loaded until you choose.</li>
+    <li><strong>Technical logs.</strong> Our hosting provider (Cloudflare) processes IP address, browser type and requested page to deliver and protect the Site.</li>
+    <li><strong>Messages you send.</strong> If you email us we receive your email address and what you write, and we use it to reply.</li>
+  </ul>
+  <p>We do not ask for names, accounts, financial account numbers, government identifiers or other sensitive personal information, and we do not knowingly collect any.</p>
+
+  <h2>3. Why we use it, and our legal bases</h2>
+  <ul>
+    <li>To run and secure the Site (technical logs). In the EEA and UK this relies on our legitimate interest in a working, safe website.</li>
+    <li>To show advertising and measure usage. This relies on your consent, which you can give or refuse separately for advertising and analytics, and withdraw at any time. In India we process this data on the basis of your consent under the Digital Personal Data Protection Act, 2023.</li>
+    <li>To answer your messages (our legitimate interest, or your request).</li>
+  </ul>
+
+  <h2>4. Cookies and similar technologies</h2>
+  <p>See the <a href="/cookie-policy/">Cookie Policy</a> for a list of what is used and for how long.</p>
+
+  <h2>5. Who receives data, and "sale" and "sharing"</h2>
+  <p>If you accept advertising cookies, Google and its advertising partners receive the data described above. Under some US state privacy laws, such as the California Consumer Privacy Act as amended (CCPA/CPRA), making data available to an advertising partner for cross-context behavioural advertising can count as "sharing" or "sale", even where no money is exchanged. We therefore offer a <strong>"Do Not Sell or Share My Personal Information"</strong> choice in the footer, which keeps advertising cookies off. We do not otherwise sell personal information. Our other recipients are service providers who process data for us, such as our hosting provider.</p>
+  <p>We also treat a Global Privacy Control signal sent by your browser as a request to keep advertising and analytics cookies off.</p>
+
+  <h2>6. Your choices</h2>
+  <ul>
+    <li>Use the cookie banner, or "Cookie settings" in the footer, to accept or refuse advertising and analytics at any time. Refusing does not limit any calculator.</li>
+    <li>Manage Google's personalised advertising at <a href="https://adssettings.google.com" rel="noopener">adssettings.google.com</a>, and read how Google uses data from sites that use its services at <a href="https://policies.google.com/technologies/partner-sites" rel="noopener">policies.google.com/technologies/partner-sites</a>.</li>
+    <li>Clear your browser storage to remove everything we keep on your device.</li>
+  </ul>
+
+  <h2>7. Your rights</h2>
+  <p><strong>India.</strong> Under the Digital Personal Data Protection Act, 2023 you may ask for a summary of the personal data we process, ask us to correct or erase it, withdraw consent, nominate another person to exercise your rights if you die or become incapacitated, and use our grievance process below.</p>
+  <p><strong>EEA and UK.</strong> You may ask for access, correction, erasure, restriction or portability of your personal data, object to processing based on legitimate interests, withdraw consent at any time without affecting earlier processing, and complain to your data protection authority.</p>
+  <p><strong>California and other US states.</strong> Depending on your state you may have the right to know what personal information we collect, use and disclose, to request deletion or correction, to opt out of sale and sharing, and not to be treated differently for using these rights. You may use an authorised agent. We will ask for enough information to confirm a request relates to you.</p>
+  <p>To use any right, email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. We aim to acknowledge requests within 7 days and to respond within 30 days, or within the period your local law sets. Because we do not store calculator inputs or account data, we may hold little or no data about you beyond what Google and our hosting provider process; for that data, you can also use their tools.</p>
+
+  <h2>8. Retention</h2>
+  <p>Preferences and your cookie choice stay on your device until you clear them; the cookie choice is asked again after 12 months. Messages you send us are kept only as long as needed to reply and to record corrections. Third parties keep data under their own policies.</p>
+
+  <h2>9. International transfers</h2>
+  <p>Google, our hosting provider and others may process data in countries other than yours, including the United States. Where required, they rely on legal transfer mechanisms such as standard contractual clauses or an adequacy decision.</p>
+
+  <h2>10. Security</h2>
+  <p>The Site is served over HTTPS and collects very little data. No system is perfectly secure, and we cannot promise absolute security.</p>
+
+  <h2>11. Children</h2>
+  <p>The Site is a general-audience site and is not directed to children. We do not knowingly collect personal information from children under 13 (or under 16 where local law sets that age), and in India we do not knowingly process the personal data of anyone under 18 without verifiable parental consent. If you believe a child has given us data, email us and we will delete it.</p>
+
+  <h2>12. Grievances and complaints</h2>
+  <p>Our Grievance Officer is {OPERATOR.grievanceOfficer}, reachable at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> or {OPERATOR.address}. We aim to acknowledge complaints within 7 days and resolve them within 30 days. If you are not satisfied you may contact the Data Protection Board of India, your EEA/UK data protection authority or your state attorney general, as applicable.</p>
+
+  <h2>13. Changes</h2>
+  <p>We may update this policy. The date at the bottom shows the latest revision, and material changes will be noted on this page.</p>
+  <p><mark>[PLACEHOLDER: replace the bracketed operator details in <code>OPERATOR</code> and the contact email in <code>CONTACT_EMAIL</code> in <code>src/config/site.ts</code>.]</mark></p>
 </PageLayout>

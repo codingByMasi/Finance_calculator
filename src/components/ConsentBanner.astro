@@ -2,12 +2,22 @@
 import Icon from './Icon.astro';
 import { SITE_NAME } from '../config/site';
 ---
-<div id="consent" class="cookie" role="region" aria-label="Cookie consent" hidden>
+<div id="consent" class="cookie" role="region" aria-labelledby="consent-title" hidden>
   <span class="cookie-icon"><Icon name="cookie" size={20} /></span>
-  <div>
-    <strong>Cookies, only if you want them</strong>
-    <p>{SITE_NAME} loads advertising (Google AdSense) and analytics only if you accept. Calculations never leave your browser. <a href="/privacy-policy/">Privacy policy</a>.</p>
+  <div class="cookie-body">
+    <strong id="consent-title" tabindex="-1">Your privacy choices</strong>
+    <p>{SITE_NAME} uses advertising and analytics cookies only if you agree. Calculations never leave your browser. See the <a href="/cookie-policy/">Cookie Policy</a> and <a href="/privacy-policy/">Privacy Policy</a>.</p>
+    <p id="gpc-note" hidden>Your browser is sending a Global Privacy Control signal, so advertising and analytics stay off.</p>
+    <div id="consent-details" hidden>
+      <div class="consent-row"><input type="checkbox" checked disabled id="c-necessary" /><label for="c-necessary"><strong>Strictly necessary</strong> Remembers these choices, light or dark mode and your country. Always on; stored only on your device.</label></div>
+      <div class="consent-row"><input type="checkbox" id="consent-ads" /><label for="consent-ads"><strong>Advertising</strong> Google AdSense ads and ad measurement. Turning this off is also how you "Do Not Sell or Share My Personal Information".</label></div>
+      <div class="consent-row"><input type="checkbox" id="consent-analytics" /><label for="consent-analytics"><strong>Analytics</strong> Anonymous usage statistics (Google Analytics) when analytics is set up.</label></div>
+      <button id="consent-save" type="button" class="primary-button">Save my choices</button>
+    </div>
   </div>
-  <button id="consent-reject" type="button" class="text-button">Reject</button>
-  <button id="consent-accept" type="button" class="primary-button">Accept</button>
+  <div class="cookie-actions">
+    <button id="consent-reject" type="button" class="secondary-button">Reject all</button>
+    <button id="consent-manage" type="button" class="secondary-button" aria-expanded="false" aria-controls="consent-details">Choose</button>
+    <button id="consent-accept" type="button" class="primary-button">Accept all</button>
+  </div>
 </div>

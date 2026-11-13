@@ -1,9 +1,9 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import { LEGAL_LAST_UPDATED } from '../config/site';
-interface Props { title: string; description: string; path: string; showUpdated?: boolean }
-const { title, description, path, showUpdated = true } = Astro.props;
+import { LEGAL_LAST_UPDATED, LEGAL_TEMPLATE_NOTICE } from '../config/site';
+interface Props { title: string; description: string; path: string; showUpdated?: boolean; legal?: boolean }
+const { title, description, path, showUpdated = true, legal = false } = Astro.props;
 ---
 <BaseLayout title={title} description={description} path={path}>
   <div class="calculator-heading"><Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: title }]} /></div>
@@ -11,6 +11,9 @@ const { title, description, path, showUpdated = true } = Astro.props;
     <h1>{title}</h1>
     <p class="lead">{description}</p>
     <div class="article-rule"></div>
+    {legal && LEGAL_TEMPLATE_NOTICE && (
+      <p class="template-notice" role="note"><strong>Template notice for the site owner:</strong> this page is a general-purpose template based on a research review of common requirements. It has not been reviewed by a lawyer and is not legal advice. Replace every [bracketed] placeholder, have a qualified lawyer in each country you operate in review it, then set <code>LEGAL_TEMPLATE_NOTICE</code> to <code>false</code> in <code>src/config/site.ts</code> to remove this notice.</p>
+    )}
     <div class="prose-page"><slot /></div>
     {showUpdated && <p class="static-meta">Last updated: {LEGAL_LAST_UPDATED}</p>}
   </article>

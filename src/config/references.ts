@@ -1,13 +1,16 @@
 import { taxIndia } from './tax-india';
 import { taxUS } from './tax-us';
 import { gstIndia } from './gst-india';
+import { savingsIndia } from './savings-india';
+import { hraIndia } from './hra-india';
+import { retirementUS } from './retirement-us';
 import sources from './data-sources.json';
 import { money, pct } from '../lib/format';
 
 export interface Reference { label: string; url: string; kind: 'official' | 'secondary' | 'method' }
 
 const titleFor = (url: string): string => sources.sources.find((s) => s.url === url)?.title ?? new URL(url).hostname;
-const kindFor = (url: string): Reference['kind'] => (/taxfoundation\.org/.test(url) ? 'secondary' : 'official');
+const kindFor = (url: string): Reference['kind'] => (/\.gov(\.[a-z]{2})?$/.test(new URL(url).hostname) ? 'official' : 'secondary');
 const refs = (urls: string[]): Reference[] => urls.map((url) => ({ label: titleFor(url), url, kind: kindFor(url) }));
 
 /** Sources for each calculator page, drawn from the data configs (never retyped here). */
@@ -16,6 +19,10 @@ export function toolReferences(slug: string): Reference[] {
     case 'income-tax-calculator-india': return refs(taxIndia.sourceUrls);
     case 'paycheck-calculator': return refs(taxUS.sourceUrls);
     case 'gst-calculator': return refs(gstIndia.sourceUrls);
+    case 'ppf-calculator': return refs(savingsIndia.sourceUrls);
+    case 'hra-calculator': return refs(hraIndia.sourceUrls);
+    case '401k-calculator': return refs(retirementUS.sourceUrls);
+    case 'auto-loan-calculator': return refs(['https://www.consumerfinance.gov/consumer-tools/auto-loans/']);
     case 'mortgage-calculator': return refs(['https://consumerfinance.gov/about-us/blog/your-mortgage-calculator-may-be-setting-you-surprise']);
     case 'compound-interest-calculator': return refs(['https://www.consumerfinance.gov/ask-cfpb/what-is-compound-interest-en-1683/']);
     default: return [];
@@ -54,6 +61,22 @@ export function figureSources(slug: string): FigureSource[] {
       f('State schedules', 'brackets, standard deduction and exemption/credit for 50 states and DC (secondary source)', usStates),
     ];
   }
+  if (slug === 'ppf-calculator') {
+    const p = savingsIndia.ppf;
+    return [
+      f('Interest rate (secondary source, not yet confirmed)', `${pct(p.ratePercent)} for ${p.rateQuarterLabel}`, savingsIndia.sourceUrls[0]),
+      f('Yearly deposit limits (secondary source, not yet confirmed)', `${inr(p.minYearlyDeposit)} to ${inr(p.maxYearlyDeposit)}`, savingsIndia.sourceUrls[0]),
+    ];
+  }
+  if (slug === 'hra-calculator') return [
+    f('Exemption limits', `${pct(hraIndia.metroShare * 100, 0)} / ${pct(hraIndia.otherShare * 100, 0)} of basic, rent minus ${pct(hraIndia.rentExcessShare * 100, 0)} of basic (secondary source, not yet confirmed)`, hraIndia.sourceUrls[0]),
+    f('Metro cities', hraIndia.metroCities.join(', ') + ' (secondary source, not yet confirmed)', hraIndia.sourceUrls[0]),
+  ];
+  if (slug === '401k-calculator') return [
+    f('Employee deferral limit', usd(retirementUS.deferralLimit), retirementUS.sourceUrls[0]),
+    f('Catch-up, age 50 and over', usd(retirementUS.catchUp50), retirementUS.sourceUrls[0]),
+    f('Catch-up, ages 60 to 63', usd(retirementUS.catchUp6063), retirementUS.sourceUrls[0]),
+  ];
   if (slug === 'gst-calculator') return [f('GST slabs', gstIndia.rates.map((r) => `${r}%`).join(', '), gstIndia.sourceUrls[0])];
   return [];
 }

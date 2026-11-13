@@ -1,14 +1,16 @@
 import type { APIRoute } from 'astro';
 import { SITE_URL, CATEGORIES, LEGAL_LAST_UPDATED } from '../config/site';
 import { tools } from '../config/tools';
+import { guides } from '../config/guides';
 import { dataForTool, dataUpdated } from '../lib/data-status';
 
-const staticPaths = ['/', '/in/', '/us/', '/about/', '/methodology/', '/changelog/', '/corrections/', '/contact/', '/privacy-policy/', '/terms/', '/disclaimer/'];
+const staticPaths = ['/', '/in/', '/us/', '/guides/', '/cookie-policy/', '/advertising-disclosure/', '/copyright/', '/accessibility/', '/about/', '/methodology/', '/changelog/', '/corrections/', '/contact/', '/privacy-policy/', '/terms/', '/disclaimer/'];
 
 export const GET: APIRoute = () => {
   const entries: [string, string][] = [
     ...staticPaths.map((u): [string, string] => [u, u === '/' || u === '/in/' || u === '/us/' || u === '/methodology/' || u === '/changelog/' ? dataUpdated.any : LEGAL_LAST_UPDATED]),
     ...CATEGORIES.map((c): [string, string] => [`/${c.slug}/`, dataUpdated.any]),
+    ...guides.map((g): [string, string] => [`/guides/${g.slug}/`, g.updated]),
     ...tools.map((t): [string, string] => [`/${t.slug}/`, dataForTool(t.slug).updated]),
   ];
   const body = `<?xml version="1.0" encoding="UTF-8"?>

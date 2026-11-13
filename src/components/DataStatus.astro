@@ -1,0 +1,16 @@
+---
+import { toolDataStatus } from '../lib/data-status';
+interface Props { slug: string }
+const s = toolDataStatus(Astro.props.slug);
+const tag = { confirmed: 'Confirmed', unverified: 'Not yet confirmed', 'not-modelled': 'Not included' } as const;
+---
+{s && (
+  <section class="data-status" aria-label="Tax year and data status">
+    <p class="ds-year"><strong>Applies to:</strong> {s.year}</p>
+    <ul>
+      {s.items.map((i) => (
+        <li class={`ds ${i.status}`}><span class="tag">{tag[i.status]}</span> <strong>{i.label}.</strong> {i.note}</li>
+      ))}
+    </ul>
+  </section>
+)}

@@ -1,8 +1,8 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import { SITE_NAME, CONTACT_EMAIL } from '../config/site';
+import { SITE_NAME, CONTACT_EMAIL, OPERATOR } from '../config/site';
 ---
-<PageLayout title="Contact" description={`Contact ${SITE_NAME}: report a calculation error, suggest a calculator or ask a question.`} path="/contact/" showUpdated={false}>
+<PageLayout legal title="Contact" description={`Contact ${SITE_NAME}: report a calculation error, suggest a calculator or ask a question.`} path="/contact/" showUpdated={false}>
   <p>We read every message about errors, outdated tax figures and calculator ideas.</p>
   <p><strong>Email:</strong> <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></p>
   <p><!-- TODO: set CONTACT_EMAIL in src/config/site.ts to your real address. --><mark>[PLACEHOLDER: replace this email with your real contact address in <code>src/config/site.ts</code>.]</mark></p>
@@ -12,4 +12,10 @@ import { SITE_NAME, CONTACT_EMAIL } from '../config/site';
     <li>Say what result you expected and where you found that figure.</li>
   </ul>
   <p>We cannot give personal financial, tax or legal advice by email.</p>
+  <h2>Privacy requests and complaints</h2>
+  <p>To use your privacy rights, to opt out, or to make a complaint, write to our Grievance Officer, {OPERATOR.grievanceOfficer}, at the email above or at {OPERATOR.address}. See the <a href="/privacy-policy/">Privacy Policy</a> for how we respond.</p>
+  <h2>Copyright notices</h2>
+  <p>Send copyright notices to our designated agent as described on the <a href="/copyright/">copyright page</a>.</p>
+  <h2>Accessibility</h2>
+  <p>Tell us about any barrier at the same address; see the <a href="/accessibility/">accessibility statement</a>.</p>
 </PageLayout>

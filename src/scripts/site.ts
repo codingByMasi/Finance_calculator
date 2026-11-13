@@ -39,6 +39,27 @@ document.querySelectorAll<HTMLAnchorElement>('[data-country-link]').forEach((a) 
 }
 
 // ---- consent, ads, analytics
+// Choices are stored as {ads, analytics, ts}. Nothing advertising- or analytics-related loads before the visitor opts in,
+// and a Global Privacy Control signal counts as an opt-out of both. Choices expire after 12 months.
+interface Consent { ads: boolean; analytics: boolean; ts: number }
+const CONSENT_KEY = 'fch_consent_v2';
+const CONSENT_MAX_AGE_MS = 365 * 24 * 60 * 60 * 1000;
+const gpcOn = (navigator as any).globalPrivacyControl === true;
+
+function readConsent(): Consent | null {
+  try {
+    const raw = store.get(CONSENT_KEY);
+    if (raw) {
+      const c = JSON.parse(raw) as Consent;
+      if (typeof c.ts === 'number' && Date.now() - c.ts < CONSENT_MAX_AGE_MS) return { ads: !!c.ads, analytics: !!c.analytics, ts: c.ts };
+      return null;
+    }
+    const old = store.get('fch_consent'); // choice saved by an earlier version of the banner
+    if (old === 'granted' || old === 'denied') return { ads: old === 'granted', analytics: old === 'granted', ts: 0 };
+  } catch { /* ignore */ }
+  return null;
+}
+
 let adsLoaded = false;
 function loadAds(): void {
   if (adsLoaded || !ADSENSE_CLIENT) return;
@@ -52,27 +73,81 @@ function loadAds(): void {
   });
 }
 let gaLoaded = false;
-function loadAnalytics(): void {
+function loadAnalytics(adsGranted: boolean): void {
   if (gaLoaded || !GA_ID) return;
   gaLoaded = true;
-  const s = document.createElement('script');
-  s.async = true; s.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(GA_ID)}`;
-  document.head.appendChild(s);
   const w = window as any;
   w.dataLayer = w.dataLayer || [];
   w.gtag = function () { w.dataLayer.push(arguments); };
-  w.gtag('js', new Date()); w.gtag('config', GA_ID, { anonymize_ip: true });
+  // Google Consent Mode v2: everything starts denied, then is updated to match the visitor's choices
+  w.gtag('consent', 'default', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied' });
+  w.gtag('consent', 'update', { analytics_storage: 'granted', ad_storage: adsGranted ? 'granted' : 'denied', ad_user_data: adsGranted ? 'granted' : 'denied', ad_personalization: adsGranted ? 'granted' : 'denied' });
+  const s = document.createElement('script');
+  s.async = true; s.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(GA_ID)}`;
+  document.head.appendChild(s);
+  w.gtag('js', new Date()); w.gtag('config', GA_ID, { anonymize_ip: true, page_location: location.origin + location.pathname });
 }
-function applyConsent(choice: string | null): void {
-  document.documentElement.dataset.consent = choice || 'unset';
-  if (choice === 'granted') { loadAds(); loadAnalytics(); }
+function removeAnalyticsCookies(): void {
+  const host = location.hostname.split('.');
+  const domains = ['', location.hostname, ...host.map((_, i) => '.' + host.slice(i).join('.')).filter((d) => d.split('.').length > 2)];
+  document.cookie.split(';').map((c) => c.split('=')[0].trim()).filter((n) => /^_ga/.test(n)).forEach((n) => {
+    domains.forEach((d) => { document.cookie = `${n}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/${d ? '; domain=' + d : ''}`; });
+  });
 }
 
 const banner = document.getElementById('consent');
-const choice = store.get('fch_consent');
-if (banner && !choice) banner.hidden = false;
-applyConsent(choice);
-const decide = (v: 'granted' | 'denied') => { store.set('fch_consent', v); if (banner) banner.hidden = true; applyConsent(v); };
-document.getElementById('consent-accept')?.addEventListener('click', () => decide('granted'));
-document.getElementById('consent-reject')?.addEventListener('click', () => decide('denied'));
-document.querySelectorAll('[data-open-consent]').forEach((b) => b.addEventListener('click', () => { if (banner) { banner.hidden = false; (document.getElementById('consent-accept') as HTMLElement | null)?.focus(); } }));
+const adsBox = document.getElementById('consent-ads') as HTMLInputElement | null;
+const anBox = document.getElementById('consent-analytics') as HTMLInputElement | null;
+const details = document.getElementById('consent-details');
+const manage = document.getElementById('consent-manage');
+const gpcNote = document.getElementById('gpc-note');
+
+function applyConsent(c: Consent | null): void {
+  const eff = c && !gpcOn ? c : { ads: false, analytics: false, ts: c?.ts ?? 0 };
+  document.documentElement.dataset.consent = c ? (eff.ads || eff.analytics ? 'granted' : 'denied') : 'unset';
+  if (eff.ads) loadAds();
+  if (eff.analytics) loadAnalytics(eff.ads);
+}
+function showDetails(open: boolean): void {
+  if (details) details.hidden = !open;
+  manage?.setAttribute('aria-expanded', String(open));
+}
+function syncBoxes(c: Consent | null): void {
+  if (adsBox) adsBox.checked = !!c?.ads && !gpcOn;
+  if (anBox) anBox.checked = !!c?.analytics && !gpcOn;
+  if (gpcNote) gpcNote.hidden = !gpcOn;
+}
+function decide(ads: boolean, analytics: boolean): void {
+  const before = readConsent();
+  const next: Consent = { ads: ads && !gpcOn, analytics: analytics && !gpcOn, ts: Date.now() };
+  store.set(CONSENT_KEY, JSON.stringify(next));
+  if (banner) banner.hidden = true;
+  const withdrew = !!before && ((before.ads && !next.ads) || (before.analytics && !next.analytics));
+  if (withdrew) {
+    removeAnalyticsCookies();
+    location.reload(); // drop scripts that were already running
+    return;
+  }
+  applyConsent(next);
+}
+
+const current = readConsent();
+syncBoxes(current);
+if (banner && !current) banner.hidden = false;
+applyConsent(current);
+
+document.getElementById('consent-accept')?.addEventListener('click', () => decide(true, true));
+document.getElementById('consent-reject')?.addEventListener('click', () => decide(false, false));
+document.getElementById('consent-save')?.addEventListener('click', () => decide(!!adsBox?.checked, !!anBox?.checked));
+manage?.addEventListener('click', () => showDetails(details ? details.hidden === true : true));
+document.querySelectorAll<HTMLElement>('[data-open-consent]').forEach((b) => b.addEventListener('click', () => {
+  if (!banner) return;
+  syncBoxes(readConsent());
+  banner.hidden = false;
+  showDetails(true);
+  (document.getElementById('consent-title') as HTMLElement | null)?.focus();
+}));
+document.addEventListener('keydown', (e) => {
+  // Escape closes the panel without changing anything (a choice already made stays; no choice means ads stay off)
+  if (e.key === 'Escape' && banner && !banner.hidden && readConsent()) banner.hidden = true;
+});

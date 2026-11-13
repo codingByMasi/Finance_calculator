@@ -1,8 +1,8 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import { SITE_NAME } from '../config/site';
+import { SITE_NAME, OPERATOR } from '../config/site';
 ---
-<PageLayout title="Terms of Use" description={`Terms of use for ${SITE_NAME}: acceptable use, no warranty, limitation of liability and intellectual property.`} path="/terms/">
+<PageLayout legal title="Terms of Use" description={`Terms of use for ${SITE_NAME}: acceptable use, no warranty, limitation of liability and intellectual property.`} path="/terms/">
   <p>By using {SITE_NAME} (the "Site") you agree to these terms. If you do not agree, please do not use the Site.</p>
   <h2>Use of the Site</h2>
   <p>The Site provides free calculators and educational content for personal, non-commercial use. You agree not to misuse it: do not attempt to disrupt it, scrape it at a volume that harms performance, or copy its content and republish it as your own.</p>
@@ -14,6 +14,16 @@ import { SITE_NAME } from '../config/site';
   <p>The Site's text, design and code are owned by its operator or its licensors. You may link to any page. You may not reproduce substantial parts without written permission.</p>
   <h2>Advertising and third parties</h2>
   <p>The Site may display third-party ads and link to third-party sites. We are not responsible for their content or practices. See the <a href="/privacy-policy/">privacy policy</a>.</p>
+  <h2>Availability and accuracy</h2>
+  <p>We try to keep the Site available and its figures current but do not promise that it will be uninterrupted or error free. Tax rates, limits and rules change, and some figures are marked "not yet confirmed" until we have checked them against a primary source.</p>
+  <h2>Your responsibilities</h2>
+  <p>You are responsible for the numbers you enter and for decisions you make using the results. You agree not to use the Site unlawfully, to attempt to gain unauthorised access, to introduce malicious code, or to use automated means to copy the Site in bulk.</p>
+  <h2>Indemnity</h2>
+  <p>To the extent the law allows, you agree to cover reasonable losses we suffer because you broke these terms.</p>
+  <h2>Governing law and disputes</h2>
+  <p>These terms are governed by {OPERATOR.governingLaw}. Disputes will be heard by {OPERATOR.courts}, except where your local consumer law gives you the right to bring a claim elsewhere.</p>
+  <h2>Severability</h2>
+  <p>If any part of these terms is found unenforceable, the rest stays in force.</p>
   <h2>Changes</h2>
   <p>We may update these terms and the Site at any time. Continued use after a change means you accept the updated terms.</p>
   <h2>Contact</h2>

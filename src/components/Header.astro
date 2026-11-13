@@ -10,6 +10,7 @@ import { SITE_NAME, CATEGORIES } from '../config/site';
     </a>
     <nav id="site-nav" class="nav-links" aria-label="Main">
       {CATEGORIES.map((c) => <a href={`/${c.slug}/`}>{c.title.replace(' calculators', '')}</a>)}
+      <a href="/guides/">Guides</a>
     </nav>
     <div class="nav-actions">
       <div role="group" aria-label="Country" class="segmented compact">

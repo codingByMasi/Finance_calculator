@@ -46,7 +46,7 @@ export const def: ToolDef = {
       chart: r.gross > 0 ? { kind: 'donut', title: 'Where your pay goes', currency: 'USD', segments: [
         { label: 'Take-home', value: r.netAnnual }, { label: 'Federal tax', value: r.federal }, { label: 'FICA', value: r.fica },
         { label: 'State tax', value: r.state }, { label: 'Pre-tax savings', value: r.preTax }] } : undefined,
-      notes: [...(r.stateNote ? [r.stateNote] : []), 'Local taxes and state payroll programs (SDI, FLI) are not included.'],
+      notes: [...(r.stateNote ? [r.stateNote] : []), 'Local taxes and state payroll programs (SDI, FLI) are not included.', `Federal figures are for tax year ${taxUS.taxYear} (IRS). State schedules are from a secondary source and are not yet confirmed.`],
     };
   },
 };
