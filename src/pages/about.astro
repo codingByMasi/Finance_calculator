@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import { SITE_NAME } from '../config/site';
+import EditorialBlock from '../components/EditorialBlock.astro';
 import { sourceStatuses, sourcesLastChecked, dataUpdated, fmtDate } from '../lib/data-status';
 ---
 <PageLayout title="About" description={`About ${SITE_NAME}: free, private finance calculators for India and the US, built to be clear about their formulas and assumptions.`} path="/about/">
@@ -20,6 +21,8 @@ import { sourceStatuses, sourcesLastChecked, dataUpdated, fmtDate } from '../lib
     {sourceStatuses.map((s) => <li><a href={s.url} rel="noopener">{s.title}</a>: {s.state === 'ok' ? 'unchanged since last review' : s.state}{s.lastChecked && ` (checked ${fmtDate(s.lastChecked)})`}</li>)}
   </ul>
   <p>Some official sites block automated requests, so a source can show as unreachable even though it is fine; that is reported, not hidden.</p>
+  <p>Full details are on the <a href="/methodology/">methodology page</a>; changes are logged in the <a href="/changelog/">data changelog</a>, and mistakes are handled under the <a href="/corrections/">corrections policy</a>.</p>
+  <EditorialBlock />
   <h2>How the site is funded</h2>
   <p>The site may show advertising from Google AdSense. Ads only load if you accept cookies, and they never affect how a calculation is done.</p>
   <h2>Not financial advice</h2>

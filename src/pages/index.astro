@@ -4,6 +4,7 @@ import ToolCard from '../components/ToolCard.astro';
 import Icon from '../components/Icon.astro';
 import { SITE_NAME, SITE_TAGLINE, SITE_URL, CATEGORIES } from '../config/site';
 import { dataUpdated, fmtDate } from '../lib/data-status';
+import { organizationJsonLd } from '../config/editorial';
 import { tools, toolsByCategory, toolBySlug, popularSlugs, categoryIcons, type Tool } from '../config/tools';
 const popular = popularSlugs.map(toolBySlug).filter((t): t is Tool => !!t);
 const index = tools.map((t) => ({ title: t.shortTitle, slug: t.slug, description: t.description }));
@@ -13,7 +14,7 @@ const index = tools.map((t) => ({ title: t.shortTitle, slug: t.slug, description
   description="Free EMI, SIP, GST, income tax, mortgage, paycheck and other finance calculators for India and the US. Fast, private and clear."
   path="/"
   country="both"
-  jsonLd={[{ '@context': 'https://schema.org', '@type': 'WebSite', name: SITE_NAME, url: SITE_URL + '/' }]}
+  jsonLd={[{ '@context': 'https://schema.org', '@type': 'WebSite', name: SITE_NAME, url: SITE_URL + '/', publisher: { '@id': `${SITE_URL}/#organization` } }, organizationJsonLd()]}
 >
   <section class="hero">
     <div class="hero-orb orb-one"></div><div class="hero-orb orb-two"></div>

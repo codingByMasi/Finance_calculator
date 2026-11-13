@@ -54,6 +54,13 @@ Limits, stated plainly: none of these sources offers a machine-readable (JSON/XM
 
 The "last updated" dates on tool pages, the Assumptions box, the footer, the home page badge and the sitemap are read from the configs' `lastUpdated` fields and the status file (`src/lib/data-status.ts`); no date is hardcoded in components.
 
+## Credibility features
+
+- **Sources on every tool page:** `src/config/references.ts` builds the "Where the figures come from" table from the tax configs, so values and links cannot drift.
+- **/methodology/**, **/corrections/** and **/changelog/**: generated from the tools registry, `src/lib/accuracy.ts` and `src/config/data-changelog.ts`. When you change a config's `lastUpdated`, add a changelog entry with the same date (a test enforces this). Add corrections to the `corrections` array.
+- **Accuracy tests** (`tests/accuracy.test.ts`) compare results with published CFPB, SSA and CBDT examples. Add a case to `accuracyCases` whenever you find another published worked example; the Methodology page shows it automatically.
+- **Author and reviewer:** fill `editorial.author` / `editorial.reviewer` in `src/config/editorial.ts` with real, checkable details. Until then the About and Methodology pages show a marked placeholder and the structured data names no person.
+
 ## Deploy to Cloudflare Pages
 
 1. Push this repo to GitHub.

@@ -25,6 +25,7 @@ export const taxUS = {
     'https://www.irs.gov/pub/irs-drop/rp-25-32.pdf',
     'https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill',
     'https://www.irs.gov/taxtopics/tc751',
+    'https://www.ssa.gov/cola/factsheets/2026.html',
     'https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/',
   ],
   /** true only when every figure is confirmed on an official source */

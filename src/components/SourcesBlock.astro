@@ -1,0 +1,26 @@
+---
+import { toolReferences, figureSources } from '../config/references';
+interface Props { slug: string }
+const { slug } = Astro.props;
+const refs = toolReferences(slug);
+const figures = figureSources(slug);
+const kindLabel = { official: 'Official source', secondary: 'Secondary source', method: 'Method' } as const;
+---
+{figures.length > 0 && (
+  <>
+    <h3>Where the figures come from</h3>
+    <table class="figure-table">
+      <thead><tr><th scope="col">Figure</th><th scope="col">Value used</th><th scope="col">Source</th></tr></thead>
+      <tbody>
+        {figures.map((r) => <tr><th scope="row">{r.figure}</th><td>{r.value}</td><td><a href={r.url} rel="noopener">{r.label}</a></td></tr>)}
+      </tbody>
+    </table>
+  </>
+)}
+{refs.length > 0 && figures.length === 0 && (
+  <>
+    <h3>Reference</h3>
+    <ul class="ref-list">{refs.map((r) => <li><a href={r.url} rel="noopener">{r.label}</a> <span class="tag">{kindLabel[r.kind]}</span></li>)}</ul>
+  </>
+)}
+<p class="method-link">The formula is derived on our <a href={`/methodology/#${slug}`}>methodology page</a>, with accuracy checks against published examples.</p>

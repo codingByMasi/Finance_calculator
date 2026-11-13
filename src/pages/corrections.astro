@@ -1,0 +1,32 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { SITE_NAME, CONTACT_EMAIL } from '../config/site';
+import { corrections } from '../config/data-changelog';
+import { fmtDate } from '../lib/data-status';
+---
+<PageLayout title="Corrections policy" description={`How ${SITE_NAME} handles errors: how to report one, how we fix it, and a public log of corrections.`} path="/corrections/" showUpdated={false}>
+  <p>Finance tools must be right, and when they are not we want to know. This page explains how to report a problem and what happens next.</p>
+  <h2>What counts as an error</h2>
+  <ul>
+    <li>A calculator result that disagrees with its stated formula or with an official published figure.</li>
+    <li>An outdated tax rate, slab, threshold or limit, or a missing source.</li>
+    <li>Copy that is wrong, misleading or unclear on a calculator, legal or methodology page.</li>
+  </ul>
+  <h2>How to report</h2>
+  <p>Use the <a href="/contact/">contact page</a> (email: <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>). Tell us the page, the numbers you entered, the result you saw, what you expected and, ideally, an official source.</p>
+  <p><mark>[PLACEHOLDER: replace the email in <code>src/config/site.ts</code> before launch so this address works.]</mark></p>
+  <h2>What we do</h2>
+  <ol>
+    <li>We aim to review every report within one week (this is an aim, not a guarantee).</li>
+    <li>We check the claim against the official source and the calculation code.</li>
+    <li>If it is an error we fix it, add a test that would have caught it, update the data changelog if figures changed, and log the correction below.</li>
+    <li>If it is not an error we reply with our reasoning and the source we relied on.</li>
+  </ol>
+  <h2>Corrections log</h2>
+  {corrections.length === 0 ? (
+    <p>No corrections have been published yet. Corrections to calculator results or content are listed here with their date once they are made.</p>
+  ) : (
+    <ul>{corrections.map((c) => <li><strong>{fmtDate(c.date)}, {c.page}:</strong> {c.what} <em>Fixed:</em> {c.fixed}</li>)}</ul>
+  )}
+  <p>Routine data updates are in the <a href="/changelog/">data changelog</a>. Methods are described on the <a href="/methodology/">methodology page</a>.</p>
+</PageLayout>

@@ -1,13 +1,130 @@
 {
   "_comment": "Official sources watched by scripts/check-sources.mjs. 'expect' strings must still appear on the page (a missing one means the page or the figure changed). 'kind' = html pages are reduced to visible text before hashing; pdf pages are hashed as raw bytes. 'noisy' sources only produce informational notes on hash changes. 'config' names the file a human edits when something changes.",
   "sources": [
-    { "id": "in-tax-rates", "title": "Income Tax Department: tax rates", "url": "https://www.incometaxindia.gov.in/w/tax-rates", "kind": "html", "config": "src/config/tax-india.ts", "expect": ["4,00,000", "8,00,000", "12,00,000", "60,000", "12,500"] },
-    { "id": "in-threshold-limits", "title": "Income Tax Department: threshold limits", "url": "https://www.incometaxindia.gov.in/w/threshold-limits-under-income-tax-act", "kind": "html", "config": "src/config/tax-india.ts", "expect": ["75,000", "50,000", "1,50,000", "12,500"] },
-    { "id": "in-itd-portal-slabs", "title": "Income Tax e-filing portal: tax slabs", "url": "https://www.incometax.gov.in/iec/foportal/help/individual/return-applicable-1", "kind": "html", "config": "src/config/tax-india.ts", "expect": ["4,00,000", "12,00,000"] },
-    { "id": "in-gst-56th-council", "title": "PIB: 56th GST Council recommendations", "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2163555&reg=48&lang=2", "kind": "html", "config": "src/config/gst-india.ts", "expect": ["18%", "5%", "40%"] },
-    { "id": "us-irs-rev-proc-2025-32", "title": "IRS Rev. Proc. 2025-32 (2026 inflation adjustments)", "url": "https://www.irs.gov/pub/irs-drop/rp-25-32.pdf", "kind": "pdf", "config": "src/config/tax-us.ts", "expect": [] },
-    { "id": "us-irs-2026-release", "title": "IRS newsroom: 2026 inflation adjustments", "url": "https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill", "kind": "html", "config": "src/config/tax-us.ts", "expect": ["16,100", "32,200", "24,150"] },
-    { "id": "us-irs-tc751", "title": "IRS Topic 751: Social Security and Medicare withholding", "url": "https://www.irs.gov/taxtopics/tc751", "kind": "html", "config": "src/config/tax-us.ts", "expect": ["6.2", "1.45"] },
-    { "id": "us-taxfoundation-states", "title": "Tax Foundation: state income tax rates 2026", "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/", "kind": "html", "config": "src/config/tax-us.ts", "noisy": true, "expect": ["California", "13.3%"] }
+    {
+      "id": "in-tax-rates",
+      "title": "Income Tax Department: tax rates",
+      "url": "https://www.incometaxindia.gov.in/w/tax-rates",
+      "kind": "html",
+      "config": "src/config/tax-india.ts",
+      "expect": [
+        "4,00,000",
+        "8,00,000",
+        "12,00,000",
+        "60,000",
+        "12,500"
+      ]
+    },
+    {
+      "id": "in-threshold-limits",
+      "title": "Income Tax Department: threshold limits",
+      "url": "https://www.incometaxindia.gov.in/w/threshold-limits-under-income-tax-act",
+      "kind": "html",
+      "config": "src/config/tax-india.ts",
+      "expect": [
+        "75,000",
+        "50,000",
+        "1,50,000",
+        "12,500"
+      ]
+    },
+    {
+      "id": "in-itd-portal-slabs",
+      "title": "Income Tax e-filing portal: tax slabs",
+      "url": "https://www.incometax.gov.in/iec/foportal/help/individual/return-applicable-1",
+      "kind": "html",
+      "config": "src/config/tax-india.ts",
+      "expect": [
+        "4,00,000",
+        "12,00,000"
+      ]
+    },
+    {
+      "id": "in-gst-56th-council",
+      "title": "PIB: 56th GST Council recommendations",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2163555&reg=48&lang=2",
+      "kind": "html",
+      "config": "src/config/gst-india.ts",
+      "expect": [
+        "18%",
+        "5%",
+        "40%"
+      ]
+    },
+    {
+      "id": "us-irs-rev-proc-2025-32",
+      "title": "IRS Rev. Proc. 2025-32 (2026 inflation adjustments)",
+      "url": "https://www.irs.gov/pub/irs-drop/rp-25-32.pdf",
+      "kind": "pdf",
+      "config": "src/config/tax-us.ts",
+      "expect": []
+    },
+    {
+      "id": "us-irs-2026-release",
+      "title": "IRS newsroom: 2026 inflation adjustments",
+      "url": "https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill",
+      "kind": "html",
+      "config": "src/config/tax-us.ts",
+      "expect": [
+        "16,100",
+        "32,200",
+        "24,150"
+      ]
+    },
+    {
+      "id": "us-irs-tc751",
+      "title": "IRS Topic 751: Social Security and Medicare withholding",
+      "url": "https://www.irs.gov/taxtopics/tc751",
+      "kind": "html",
+      "config": "src/config/tax-us.ts",
+      "expect": [
+        "6.2",
+        "1.45"
+      ]
+    },
+    {
+      "id": "us-taxfoundation-states",
+      "title": "Tax Foundation: state income tax rates 2026",
+      "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "kind": "html",
+      "config": "src/config/tax-us.ts",
+      "noisy": true,
+      "expect": [
+        "California",
+        "13.3%"
+      ]
+    },
+    {
+      "id": "us-ssa-cola-2026",
+      "title": "SSA: 2026 Social Security fact sheet",
+      "url": "https://www.ssa.gov/cola/factsheets/2026.html",
+      "kind": "html",
+      "config": "src/config/tax-us.ts",
+      "expect": [
+        "184,500",
+        "7.65"
+      ]
+    },
+    {
+      "id": "us-cfpb-mortgage-example",
+      "title": "CFPB: mortgage calculator example ($200,000, 30 years)",
+      "url": "https://consumerfinance.gov/about-us/blog/your-mortgage-calculator-may-be-setting-you-surprise",
+      "kind": "html",
+      "config": "src/lib/accuracy.ts",
+      "expect": [
+        "$955",
+        "$1,074"
+      ]
+    },
+    {
+      "id": "us-cfpb-compound-interest",
+      "title": "CFPB: what is compound interest",
+      "url": "https://www.consumerfinance.gov/ask-cfpb/what-is-compound-interest-en-1683/",
+      "kind": "html",
+      "config": "src/lib/accuracy.ts",
+      "expect": [
+        "$1,102.50"
+      ]
+    }
   ]
 }

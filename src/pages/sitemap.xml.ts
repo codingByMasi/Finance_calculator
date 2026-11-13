@@ -3,11 +3,11 @@ import { SITE_URL, CATEGORIES, LEGAL_LAST_UPDATED } from '../config/site';
 import { tools } from '../config/tools';
 import { dataForTool, dataUpdated } from '../lib/data-status';
 
-const staticPaths = ['/', '/in/', '/us/', '/about/', '/contact/', '/privacy-policy/', '/terms/', '/disclaimer/'];
+const staticPaths = ['/', '/in/', '/us/', '/about/', '/methodology/', '/changelog/', '/corrections/', '/contact/', '/privacy-policy/', '/terms/', '/disclaimer/'];
 
 export const GET: APIRoute = () => {
   const entries: [string, string][] = [
-    ...staticPaths.map((u): [string, string] => [u, u === '/' || u === '/in/' || u === '/us/' ? dataUpdated.any : LEGAL_LAST_UPDATED]),
+    ...staticPaths.map((u): [string, string] => [u, u === '/' || u === '/in/' || u === '/us/' || u === '/methodology/' || u === '/changelog/' ? dataUpdated.any : LEGAL_LAST_UPDATED]),
     ...CATEGORIES.map((c): [string, string] => [`/${c.slug}/`, dataUpdated.any]),
     ...tools.map((t): [string, string] => [`/${t.slug}/`, dataForTool(t.slug).updated]),
   ];

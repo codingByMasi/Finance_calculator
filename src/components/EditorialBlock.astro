@@ -1,0 +1,18 @@
+---
+import { editorial } from '../config/editorial';
+const { author, reviewer, publisher } = editorial;
+---
+<section class="editorial-box" aria-labelledby="editorial-h">
+  <h2 id="editorial-h">Who publishes and reviews this site</h2>
+  <p><strong>Publisher:</strong> {publisher.name}. Contact: <a href="/contact/">contact page</a>.</p>
+  {author ? (
+    <p><strong>Written by:</strong> {author.name}{author.jobTitle && `, ${author.jobTitle}`}{author.credentials && `. ${author.credentials}`}{author.url && <> (<a href={author.url} rel="noopener">profile</a>)</>}</p>
+  ) : (
+    <p><mark>[PLACEHOLDER: add the name, role and checkable credentials of the person who writes this site, in <code>src/config/editorial.ts</code>. Do not publish credentials that are not true.]</mark></p>
+  )}
+  {reviewer ? (
+    <p><strong>Reviewed by:</strong> {reviewer.name}{reviewer.jobTitle && `, ${reviewer.jobTitle}`}{reviewer.credentials && `. ${reviewer.credentials}`}{reviewer.url && <> (<a href={reviewer.url} rel="noopener">profile</a>)</>}</p>
+  ) : (
+    <p><mark>[PLACEHOLDER: name of a tax or finance professional who reviews the tax calculators, if any. Leave unset if nobody reviews them; the site then makes no claim of professional review.]</mark></p>
+  )}
+</section>

@@ -1,0 +1,25 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { SITE_NAME } from '../config/site';
+import { dataChangelog, areaLabels } from '../config/data-changelog';
+import { dataUpdated, sourcesLastChecked, fmtDate } from '../lib/data-status';
+const current = [
+  { label: areaLabels['india-tax'], date: dataUpdated.india },
+  { label: areaLabels['us-tax'], date: dataUpdated.us },
+  { label: areaLabels.gst, date: dataUpdated.gst },
+];
+---
+<PageLayout title="Data changelog" description={`Every change to the tax and rate data behind ${SITE_NAME} calculators, with dates and official sources.`} path="/changelog/" showUpdated={false}>
+  <p>Tax and rate data changes only after a person checks an official source. Each change is logged here. Official sources were last checked automatically on {fmtDate(sourcesLastChecked)}.</p>
+  <h2>Current data dates</h2>
+  <ul>{current.map((c) => <li><strong>{c.label}:</strong> last updated {fmtDate(c.date)}</li>)}</ul>
+  <h2>History</h2>
+  {dataChangelog.map((e) => (
+    <section class="log-entry">
+      <h3>{fmtDate(e.date)}: {areaLabels[e.area]}</h3>
+      <p>{e.summary}</p>
+      <p class="log-sources">Sources: {e.sources.map((s, i) => <><a href={s} rel="noopener">{new URL(s).hostname}</a>{i < e.sources.length - 1 && ', '}</>)}</p>
+    </section>
+  ))}
+  <p>See also the <a href="/methodology/">methodology</a> and the <a href="/corrections/">corrections policy</a>.</p>
+</PageLayout>
