@@ -23,7 +23,7 @@ const today = new Date().toISOString().slice(0, 10);
 
 async function fetchSource(s) {
   try {
-    const res = await fetch(s.url, { redirect: 'follow', signal: AbortSignal.timeout(45_000), headers: { 'user-agent': 'Mozilla/5.0 (compatible; FinCalcSourceMonitor/1.0; +https://github.com)', accept: s.kind === 'pdf' ? 'application/pdf,*/*' : 'text/html,*/*' } });
+    const res = await fetch(s.url, { redirect: 'follow', signal: AbortSignal.timeout(45_000), headers: { 'user-agent': 'Mozilla/5.0 (compatible; FinCalculatorSourceMonitor/1.0; +https://github.com)', accept: s.kind === 'pdf' ? 'application/pdf,*/*' : 'text/html,*/*' } });
     if (!res.ok) return { ok: false, status: res.status };
     return { ok: true, status: res.status, body: s.kind === 'pdf' ? new Uint8Array(await res.arrayBuffer()) : await res.text() };
   } catch (e) {

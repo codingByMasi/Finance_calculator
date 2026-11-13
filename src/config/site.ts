@@ -1,5 +1,5 @@
 /** Central site configuration. Change SITE_NAME here and it updates everywhere. */
-export const SITE_NAME = 'FinCalc Hub'; // placeholder brand name
+export const SITE_NAME = 'FinCalculator';
 export const SITE_TAGLINE = 'Free finance calculators for India and the US';
 export const SITE_URL: string = (import.meta.env.PUBLIC_SITE_URL || 'https://example.com').replace(/\/$/, '');
 // TODO: replace with your real contact email before launch (also used on /contact and /privacy-policy).

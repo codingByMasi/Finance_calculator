@@ -1,6 +1,6 @@
-# FinCalc Hub
+# FinCalculator
 
-Static finance-calculator site for India and the US (Astro + TypeScript + Tailwind CSS). No backend, no database: every calculation runs in the browser. `FinCalc Hub` is a placeholder name kept in one constant (`SITE_NAME` in `src/config/site.ts`).
+Static finance-calculator site for India and the US (Astro + TypeScript + Tailwind CSS). No backend, no database: every calculation runs in the browser. The site name is kept in one constant (`SITE_NAME` in `src/config/site.ts`).
 
 ## Run locally
 
