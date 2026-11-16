@@ -1,18 +1,18 @@
 {
   "base": "EUR",
-  "date": "2026-11-13",
+  "date": "2026-11-16",
   "source": "Frankfurter (European Central Bank euro foreign exchange reference rates)",
   "sourceUrl": "https://api.frankfurter.dev/v1/latest?base=EUR",
   "rates": {
     "EUR": 1,
-    "USD": 1.1052,
-    "INR": 104.1575,
-    "GBP": 0.83559,
-    "JPY": 176.83,
-    "CAD": 1.5758,
-    "AUD": 1.6288,
-    "SGD": 1.4236,
-    "CHF": 0.9266,
-    "CNY": 7.3738
+    "USD": 1.1014,
+    "INR": 103.452,
+    "GBP": 0.8345,
+    "JPY": 175.78,
+    "CAD": 1.5734,
+    "AUD": 1.6301,
+    "SGD": 1.4195,
+    "CHF": 0.9244,
+    "CNY": 7.3425
   }
 }
