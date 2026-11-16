@@ -1,1 +1,103 @@
-{ "lastChecked": null, "sources": {} }
+{
+  "lastChecked": "2026-11-16",
+  "sources": {
+    "in-tax-rates": {
+      "title": "Income Tax Department: tax rates",
+      "url": "https://www.incometaxindia.gov.in/w/tax-rates",
+      "state": "unreachable",
+      "lastChecked": "2026-11-16",
+      "consecutiveFailures": 1
+    },
+    "in-threshold-limits": {
+      "title": "Income Tax Department: threshold limits",
+      "url": "https://www.incometaxindia.gov.in/w/threshold-limits-under-income-tax-act",
+      "state": "unreachable",
+      "lastChecked": "2026-11-16",
+      "consecutiveFailures": 1
+    },
+    "in-itd-portal-slabs": {
+      "title": "Income Tax e-filing portal: tax slabs",
+      "url": "https://www.incometax.gov.in/iec/foportal/help/individual/return-applicable-1",
+      "state": "ok",
+      "lastChecked": "2026-11-16",
+      "consecutiveFailures": 0
+    },
+    "in-gst-56th-council": {
+      "title": "PIB: 56th GST Council recommendations",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2163555&reg=48&lang=2",
+      "state": "unreachable",
+      "lastChecked": "2026-11-16",
+      "consecutiveFailures": 1
+    },
+    "us-irs-rev-proc-2025-32": {
+      "title": "IRS Rev. Proc. 2025-32 (2026 inflation adjustments)",
+      "url": "https://www.irs.gov/pub/irs-drop/rp-25-32.pdf",
+      "state": "ok",
+      "lastChecked": "2026-11-16",
+      "consecutiveFailures": 0
+    },
+    "us-irs-2026-release": {
+      "title": "IRS newsroom: 2026 inflation adjustments",
+      "url": "https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill",
+      "state": "ok",
+      "lastChecked": "2026-11-16",
+      "consecutiveFailures": 0
+    },
+    "us-irs-tc751": {
+      "title": "IRS Topic 751: Social Security and Medicare withholding",
+      "url": "https://www.irs.gov/taxtopics/tc751",
+      "state": "ok",
+      "lastChecked": "2026-11-16",
+      "consecutiveFailures": 0
+    },
+    "us-taxfoundation-states": {
+      "title": "Tax Foundation: state income tax rates 2026",
+      "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "state": "expectation-failed",
+      "lastChecked": "2026-11-16",
+      "consecutiveFailures": 0
+    },
+    "us-ssa-cola-2026": {
+      "title": "SSA: 2026 Social Security fact sheet",
+      "url": "https://www.ssa.gov/cola/factsheets/2026.html",
+      "state": "unreachable",
+      "lastChecked": "2026-11-16",
+      "consecutiveFailures": 1
+    },
+    "us-cfpb-mortgage-example": {
+      "title": "CFPB: mortgage calculator example ($200,000, 30 years)",
+      "url": "https://consumerfinance.gov/about-us/blog/your-mortgage-calculator-may-be-setting-you-surprise",
+      "state": "ok",
+      "lastChecked": "2026-11-16",
+      "consecutiveFailures": 0
+    },
+    "us-cfpb-compound-interest": {
+      "title": "CFPB: what is compound interest",
+      "url": "https://www.consumerfinance.gov/ask-cfpb/what-is-compound-interest-en-1683/",
+      "state": "ok",
+      "lastChecked": "2026-11-16",
+      "consecutiveFailures": 0
+    },
+    "us-irs-401k-2026": {
+      "title": "IRS: 2026 401(k) and IRA limits",
+      "url": "https://www.irs.gov/newsroom/401k-limit-increases-to-24500-for-2026-ira-limit-increases-to-7500",
+      "state": "ok",
+      "lastChecked": "2026-11-16",
+      "consecutiveFailures": 0
+    },
+    "us-irs-1040es": {
+      "title": "IRS: Form 1040-ES (2026)",
+      "url": "https://www.irs.gov/pub/irs-pdf/f1040es.pdf",
+      "state": "ok",
+      "lastChecked": "2026-11-16",
+      "consecutiveFailures": 0
+    },
+    "us-irs-when-to-file": {
+      "title": "IRS: When to file",
+      "url": "https://www.irs.gov/filing/individuals/when-to-file",
+      "state": "ok",
+      "lastChecked": "2026-11-16",
+      "consecutiveFailures": 0
+    }
+  }
+}

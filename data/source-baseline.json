@@ -1,1 +1,45 @@
-{ "_comment": "Hashes of the source content a human last reviewed. Updated by `npm run sources:accept` after the tax configs have been checked against the changed sources. Missing entries are seeded by the scheduled workflow.", "sources": {} }
+{
+  "_comment": "Hashes of the source content a human last reviewed. Updated by `npm run sources:accept` after the tax configs have been checked against the changed sources. Missing entries are seeded by the scheduled workflow.",
+  "sources": {
+    "in-itd-portal-slabs": {
+      "hash": "4c4522a964f395489c6ed4ae87757488aca256efd9299c2f6f4c9853a5f95de6",
+      "reviewed": "2026-11-16"
+    },
+    "us-irs-rev-proc-2025-32": {
+      "hash": "e9ada115fb43a4af5ea326ca91edd40ab0bf29b9be01d2c13d7b8fa96214635b",
+      "reviewed": "2026-11-16"
+    },
+    "us-irs-2026-release": {
+      "hash": "c858a364a5ff91f5cdce29f94e2a1ee4999ce2e155f488c34b995af563022051",
+      "reviewed": "2026-11-16"
+    },
+    "us-irs-tc751": {
+      "hash": "36817c3a3691b8dd96a0a470c74fc610ca5789ea10c498fdabbef84a9c94726a",
+      "reviewed": "2026-11-16"
+    },
+    "us-taxfoundation-states": {
+      "hash": "e667e8a0157ee7f81a8d3226066d235509aec02a781cf32c71d147d59ad2dfb1",
+      "reviewed": "2026-11-16"
+    },
+    "us-cfpb-mortgage-example": {
+      "hash": "07f4e6b14e70af8a46fe5aaa85a5919d428913546cce1b944dca6f7113c404ef",
+      "reviewed": "2026-11-16"
+    },
+    "us-cfpb-compound-interest": {
+      "hash": "48324c07af9ee200d8e44bd272110ae6fbc6aad345690a17ce76c6c4ba180768",
+      "reviewed": "2026-11-16"
+    },
+    "us-irs-401k-2026": {
+      "hash": "be1ca433b4c6ee010a9f97df25f079b1caa2f2b83fb097a7da2a2f7c0369ce07",
+      "reviewed": "2026-11-16"
+    },
+    "us-irs-1040es": {
+      "hash": "396ffad25baa737b33a67d27624f7444be3ac4e7245d287aebe5f89864f90b54",
+      "reviewed": "2026-11-16"
+    },
+    "us-irs-when-to-file": {
+      "hash": "7a86e4958e3355ac89f9ace5b68c586dc88b7cb9dbff33570a7313a35679f6df",
+      "reviewed": "2026-11-16"
+    }
+  }
+}
